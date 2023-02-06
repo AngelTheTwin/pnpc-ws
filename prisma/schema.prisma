@@ -1,0 +1,444 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model ACADEMICO_DISTINCION {
+  ID_PERSONA Int?
+  DISTINCION String?  @unique(map: "DISTINCION") @db.VarChar(20)
+  PERSONA    PERSONA? @relation(fields: [ID_PERSONA], references: [ID_PERSONA], onDelete: NoAction, onUpdate: NoAction, map: "academico_distincion_ibfk_1")
+
+  @@index([ID_PERSONA], map: "ID_PERSONA")
+  @@ignore
+}
+
+model ARTICULO {
+  ID_PRODUCTO        Int                @id
+  REVISTA            String?            @db.VarChar(50)
+  PAGINAS            Float?             @db.Float
+  EDITORIAL          String?            @db.VarChar(50)
+  INDIZACION         String?            @db.VarChar(50)
+  DOI                String?            @db.VarChar(20)
+  VOLUMEN            Float?             @db.Float
+  ISSN               String?            @db.VarChar(20)
+  PRODUCTO_ACADEMICO PRODUCTO_ACADEMICO @relation(fields: [ID_PRODUCTO], references: [ID_PRODUCTO], onDelete: NoAction, onUpdate: NoAction, map: "articulo_ibfk_1")
+}
+
+model CAPITULO_LIBRO {
+  ID_PRODUCTO        Int                @id
+  TITULO_LIBRO       String?            @db.VarChar(256)
+  ISBN               String?            @db.VarChar(256)
+  PAGINAS            Float?
+  EDITORIAL          String?            @db.VarChar(20)
+  VOLUMEN            Float?             @db.Float
+  PRODUCTO_ACADEMICO PRODUCTO_ACADEMICO @relation(fields: [ID_PRODUCTO], references: [ID_PRODUCTO], onDelete: NoAction, onUpdate: NoAction, map: "capitulo_libro_ibfk_1")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model COLABORA {
+  ID_PRODUCTO        Int
+  ID_PERSONA         Int
+  ROL                String?             @db.VarChar(20)
+  PRODUCTO_ACADEMICO PRODUCTO_ACADEMICO? @relation(fields: [ID_PRODUCTO], references: [ID_PRODUCTO], onDelete: NoAction, onUpdate: NoAction, map: "colabora_ibfk_1")
+  PERSONA            PERSONA?            @relation(fields: [ID_PERSONA], references: [ID_PERSONA], onDelete: NoAction, onUpdate: NoAction, map: "colabora_ibfk_2")
+
+  @@id([ID_PERSONA, ID_PRODUCTO])
+  @@index([ID_PERSONA], map: "ID_PERSONA")
+  @@index([ID_PRODUCTO], map: "ID_PRODUCTO")
+  @@ignore
+}
+
+model CONVENIO_MOVILIDAD {
+  ID_CONVENIO        Int                 @id @default(autoincrement())
+  NOMBRE_INSTITUCION String?             @db.VarChar(50)
+  SECTOR             String?             @db.VarChar(20)
+  FECHA_INICIO       DateTime?           @db.Date
+  FECHA_FINAL        DateTime?           @db.Date
+  ID_PROGRAMA        Int?
+  PROGRAMA_EDUCATIVO PROGRAMA_EDUCATIVO? @relation(fields: [ID_PROGRAMA], references: [ID_PROGRAMA], onDelete: NoAction, onUpdate: NoAction, map: "convenio_movilidad_ibfk_1")
+  ESTANCIA           ESTANCIA[]
+
+  @@index([ID_PROGRAMA], map: "ID_PROGRAMA")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model DESIGNA {
+  ROL                                            String?   @db.VarChar(20)
+  FECHA_INICIO                                   DateTime? @db.Date
+  FECHA_FINAL                                    DateTime? @db.Date
+  ID_PERSONA_ACADEMICO                           Int?
+  ID_PERSONA_ESTUDIANTE                          Int?
+  PERSONA_DESIGNA_ID_PERSONA_ACADEMICOToPERSONA  PERSONA?  @relation("DESIGNA_ID_PERSONA_ACADEMICOToPERSONA", fields: [ID_PERSONA_ACADEMICO], references: [ID_PERSONA], onDelete: NoAction, onUpdate: NoAction, map: "designa_ibfk_1")
+  PERSONA_DESIGNA_ID_PERSONA_ESTUDIANTEToPERSONA PERSONA?  @relation("DESIGNA_ID_PERSONA_ESTUDIANTEToPERSONA", fields: [ID_PERSONA_ESTUDIANTE], references: [ID_PERSONA], onDelete: NoAction, onUpdate: NoAction, map: "designa_ibfk_2")
+
+  @@index([ID_PERSONA_ACADEMICO], map: "ID_PERSONA_ACADEMICO")
+  @@index([ID_PERSONA_ESTUDIANTE], map: "ID_PERSONA_ESTUDIANTE")
+  @@ignore
+}
+
+model EJERCICIO_PROFESIONAL {
+  ID_EJERCICIO_PROFESIONAL Int      @id @default(autoincrement())
+  INSTITUCION              String?  @db.VarChar(50)
+  TIPO                     String?  @db.VarChar(20)
+  NOMBRE                   String?  @db.VarChar(20)
+  DESCRIPCION              String?  @db.VarChar(256)
+  CIUDAD                   String?  @db.VarChar(20)
+  ESTADO                   String?  @db.VarChar(20)
+  PAIS                     String?  @db.VarChar(20)
+  ID_PERSONA               Int?
+  PERSONA                  PERSONA? @relation(fields: [ID_PERSONA], references: [ID_PERSONA], onDelete: NoAction, onUpdate: NoAction, map: "ejercicio_profesional_ibfk_1")
+
+  @@index([ID_PERSONA], map: "ID_PERSONA")
+}
+
+model EMPLEO {
+  ID_EMPLEO         Int       @id @default(autoincrement())
+  DESCRIPCION       String?   @db.VarChar(256)
+  FECHA_INICIO      DateTime? @db.Date
+  FECHA_FINAL       DateTime? @db.Date
+  ARCHIVO_EVIDENCIA Bytes?    @db.Blob
+  ID_PERSONA        Int?
+  PERSONA           PERSONA?  @relation(fields: [ID_PERSONA], references: [ID_PERSONA], onDelete: NoAction, onUpdate: NoAction, map: "empleo_ibfk_1")
+
+  @@index([ID_PERSONA], map: "ID_PERSONA")
+}
+
+model ESTANCIA {
+  ID_ESTANCIA         Int                  @id @default(autoincrement())
+  AMBITO              String?              @db.VarChar(20)
+  TIPO                String?              @db.VarChar(20)
+  SECTOR              String?              @db.VarChar(20)
+  PROGRAMA_DESTINO    String?              @db.VarChar(50)
+  INSTITUCION_DESTINO String?              @db.VarChar(20)
+  MOTIVO              String?              @db.VarChar(256)
+  PAIS                String?              @db.VarChar(20)
+  ECHA_INICIO         DateTime?            @db.Date
+  FECHA_FINAL         DateTime?            @db.Date
+  ID_CONVENIO         Int?
+  ID_PROGRAMA         Int?
+  ID_PERSONA          Int?
+  PROGRAMA_EDUCATIVO  PROGRAMA_EDUCATIVO?  @relation(fields: [ID_PROGRAMA], references: [ID_PROGRAMA], onDelete: NoAction, onUpdate: NoAction, map: "estancia_ibfk_1")
+  PERSONA             PERSONA?             @relation(fields: [ID_PERSONA], references: [ID_PERSONA], onDelete: NoAction, onUpdate: NoAction, map: "estancia_ibfk_2")
+  CONVENIO_MOVILIDAD  CONVENIO_MOVILIDAD?  @relation(fields: [ID_CONVENIO], references: [ID_CONVENIO], onDelete: NoAction, onUpdate: NoAction, map: "estancia_ibfk_3")
+  PRODUCTO_ACADEMICO  PRODUCTO_ACADEMICO[]
+
+  @@index([ID_CONVENIO], map: "ID_CONVENIO")
+  @@index([ID_PERSONA], map: "ID_PERSONA")
+  @@index([ID_PROGRAMA], map: "ID_PROGRAMA")
+}
+
+model EVENTO {
+  ID_EVENTO          Int                 @id @default(autoincrement())
+  NOMBRE             String?             @db.VarChar(50)
+  DESCRIPCION        String?             @db.VarChar(50)
+  ARCHIVO_EVIDENCIA  Bytes?              @db.Blob
+  FECHA_INICIO       DateTime?           @db.Date
+  FECHA_FINAL        DateTime?           @db.Date
+  ID_PROGRAMA        Int?
+  PROGRAMA_EDUCATIVO PROGRAMA_EDUCATIVO? @relation(fields: [ID_PROGRAMA], references: [ID_PROGRAMA], onDelete: NoAction, onUpdate: NoAction, map: "evento_ibfk_1")
+
+  @@index([ID_PROGRAMA], map: "ID_PROGRAMA")
+}
+
+model FINANCIAMIENTO {
+  ID_FINANCIAMIENTO Int       @id @default(autoincrement())
+  NUMERO_BECA       Int?
+  DESCRIPCION       String?   @db.VarChar(256)
+  MONTO             Float?
+  TIPO              String?   @db.VarChar(20)
+  OTORGANTE         String?   @db.VarChar(20)
+  FECHA_INICIO      DateTime? @db.Date
+  FECHA_FINAL       DateTime? @db.Date
+  ID_PERSONA        Int?
+  PERSONA           PERSONA?  @relation(fields: [ID_PERSONA], references: [ID_PERSONA], onDelete: NoAction, onUpdate: NoAction, map: "financiamiento_ibfk_1")
+
+  @@index([ID_PERSONA], map: "ID_PERSONA")
+}
+
+model FORMACION_COMPLEMENTARIA {
+  ID_FORMACION_COMPLEMENTARIA Int      @id @default(autoincrement())
+  DESCRIPCION                 String?  @db.VarChar(256)
+  TIPO                        String?  @db.VarChar(20)
+  INSTITUCION                 String?  @db.VarChar(50)
+  NOMBRE                      String?  @db.VarChar(20)
+  ARCHIVO_EVIDENCIA           Bytes?   @db.Blob
+  ID_PERSONA                  Int?
+  PERSONA                     PERSONA? @relation(fields: [ID_PERSONA], references: [ID_PERSONA], onDelete: NoAction, onUpdate: NoAction, map: "formacion_complementaria_ibfk_1")
+
+  @@index([ID_PERSONA], map: "ID_PERSONA")
+}
+
+model GENERACION {
+  ID_GENERACION Int            @id @default(autoincrement())
+  ID_PLAN       Int?
+  FECHA_INICIO  DateTime?      @db.Date
+  FECHA_FINAL   DateTime?      @db.Date
+  PLAN_ESTUDIOS PLAN_ESTUDIOS? @relation(fields: [ID_PLAN], references: [ID_PLAN], onDelete: NoAction, onUpdate: NoAction, map: "generacion_ibfk_1")
+  PERSONA       PERSONA[]
+
+  @@index([ID_PLAN], map: "ID_PLAN")
+}
+
+model GRADO {
+  ID_GRADO          Int       @id @default(autoincrement())
+  NIVEL             String?   @db.VarChar(20)
+  FECHA_INICIO      DateTime? @db.Date
+  FECHA_FINAL       DateTime? @db.Date
+  INSTITUCION       String?   @db.VarChar(50)
+  NOMBRE_PROGRAMA   String?   @db.VarChar(50)
+  CIUDAD            String?   @db.VarChar(20)
+  ESTADO            String?   @db.VarChar(20)
+  PAIS              String?   @db.VarChar(20)
+  ARCHIVO_EVIDENCIA Bytes?    @db.Blob
+  ID_PERSONA        Int?
+  PERSONA           PERSONA?  @relation(fields: [ID_PERSONA], references: [ID_PERSONA], onDelete: NoAction, onUpdate: NoAction, map: "grado_ibfk_1")
+
+  @@index([ID_PERSONA], map: "ID_PERSONA")
+}
+
+model LGAC {
+  ID_LGAC            Int                  @id @default(autoincrement())
+  NOMBRE             String?              @db.VarChar(256)
+  INSTITUCION        String?              @db.VarChar(50)
+  DESCRIPCION        String?              @db.VarChar(256)
+  JUSTIFICACION      String?              @db.Text
+  CLASIFICACION      String?              @db.VarChar(100)
+  ESTADO             String?              @db.VarChar(20)
+  PRODUCTO_ACADEMICO PRODUCTO_ACADEMICO[]
+  REGISTRA           REGISTRA[]           @ignore
+}
+
+model LIBRO {
+  ID_PRODUCTO        Int                @id
+  ISBN               String?            @db.VarChar(15)
+  PAGINAS            Float?
+  EDITORIAL          String?            @db.VarChar(20)
+  INDIZACION         String?            @db.VarChar(20)
+  VOLUMEN            Float?             @db.Float
+  PRODUCTO_ACADEMICO PRODUCTO_ACADEMICO @relation(fields: [ID_PRODUCTO], references: [ID_PRODUCTO], onDelete: NoAction, onUpdate: NoAction, map: "libro_ibfk_1")
+}
+
+model MEMORIA_CONGRESO {
+  ID_PRODUCTO        Int                @id
+  FECHA              DateTime?          @db.Date
+  PAGINAS            Float?             @db.Float
+  ISBN               String?            @db.VarChar(20)
+  NOMBRE_CONGRESO    String?            @db.VarChar(256)
+  CIUDAD             String?            @db.VarChar(50)
+  ESTADO             String?            @db.VarChar(50)
+  PAIS               String?            @db.VarChar(50)
+  PRODUCTO_ACADEMICO PRODUCTO_ACADEMICO @relation(fields: [ID_PRODUCTO], references: [ID_PRODUCTO], onDelete: NoAction, onUpdate: NoAction, map: "memoria_congreso_ibfk_1")
+}
+
+model PERSONA {
+  ID_PERSONA                                                        Int                        @id @default(autoincrement())
+  NOMBRE                                                            String?                    @db.VarChar(20)
+  APELLIDO_PATERNO                                                  String?                    @db.VarChar(20)
+  APELLIDO_MATERNO                                                  String?                    @db.VarChar(20)
+  EMAIL                                                             String?                    @db.VarChar(20)
+  CVU                                                               Int?
+  ESTADO                                                            String?                    @db.VarChar(20)
+  ID_GENERACION                                                     Int?
+  CATEGORIA                                                         String?                    @db.VarChar(20)
+  INSTITUCION                                                       String?                    @db.VarChar(50)
+  TIPO                                                              String?                    @db.VarChar(20)
+  ACADEMICO_DISTINCION                                              ACADEMICO_DISTINCION[]     @ignore
+  COLABORA                                                          COLABORA[]                 @ignore
+  DESIGNA_DESIGNA_ID_PERSONA_ACADEMICOToPERSONA                     DESIGNA[]                  @relation("DESIGNA_ID_PERSONA_ACADEMICOToPERSONA") @ignore
+  DESIGNA_DESIGNA_ID_PERSONA_ESTUDIANTEToPERSONA                    DESIGNA[]                  @relation("DESIGNA_ID_PERSONA_ESTUDIANTEToPERSONA") @ignore
+  EJERCICIO_PROFESIONAL                                             EJERCICIO_PROFESIONAL[]
+  EMPLEO                                                            EMPLEO[]
+  ESTANCIA                                                          ESTANCIA[]
+  FINANCIAMIENTO                                                    FINANCIAMIENTO[]
+  FORMACION_COMPLEMENTARIA                                          FORMACION_COMPLEMENTARIA[]
+  GRADO                                                             GRADO[]
+  GENERACION                                                        GENERACION?                @relation(fields: [ID_GENERACION], references: [ID_GENERACION], onDelete: NoAction, onUpdate: NoAction, map: "persona_ibfk_1")
+  PERTENECE                                                         PERTENECE[]                @ignore
+  PROGRAMA_EDUCATIVO_PROGRAMA_EDUCATIVO_COORDINADORToPERSONA        PROGRAMA_EDUCATIVO[]       @relation("PROGRAMA_EDUCATIVO_COORDINADORToPERSONA")
+  PROGRAMA_EDUCATIVO_PROGRAMA_EDUCATIVO_COORDINADOR_ACTUALToPERSONA PROGRAMA_EDUCATIVO[]       @relation("PROGRAMA_EDUCATIVO_COORDINADOR_ACTUALToPERSONA")
+  PROGRAMA_EDUCATIVO_PROGRAMA_EDUCATIVO_REPRESENTANTEToPERSONA      PROGRAMA_EDUCATIVO[]       @relation("PROGRAMA_EDUCATIVO_REPRESENTANTEToPERSONA")
+  RECONOCIMIENTO                                                    RECONOCIMIENTO[]
+  REGISTRA                                                          REGISTRA[]                 @ignore
+
+  @@index([ID_GENERACION], map: "ID_GENERACION")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model PERTENECE {
+  ID_PROGRAMA        Int?
+  ID_PERSONA         Int?
+  FECHA_INGRESO      DateTime?           @db.Date
+  FECHA_EGRESO       DateTime?           @db.Date
+  NAB                Boolean?
+  CARTA_NAB          Bytes?              @db.Blob
+  PERSONA            PERSONA?            @relation(fields: [ID_PERSONA], references: [ID_PERSONA], onDelete: NoAction, onUpdate: NoAction, map: "pertenece_ibfk_1")
+  PROGRAMA_EDUCATIVO PROGRAMA_EDUCATIVO? @relation(fields: [ID_PROGRAMA], references: [ID_PROGRAMA], onDelete: NoAction, onUpdate: NoAction, map: "pertenece_ibfk_2")
+
+  @@index([ID_PERSONA], map: "ID_PERSONA")
+  @@index([ID_PROGRAMA], map: "ID_PROGRAMA")
+  @@ignore
+}
+
+model PLAN_ESTUDIOS {
+  ID_PLAN                    Int                  @id @default(autoincrement())
+  DESCRIPCION_MODIFICACIONES String?              @db.Text
+  PERFIL_INGRESO             String?              @db.Text
+  PERFIL_EGRESO              String?              @db.Text
+  FECHA_INICIO               DateTime?            @db.Date
+  FECHA_FINAL                DateTime?            @db.Date
+  ID_PROGRAMA                Int?
+  GENERACION                 GENERACION[]
+  PROGRAMA_EDUCATIVO         PROGRAMA_EDUCATIVO?  @relation(fields: [ID_PROGRAMA], references: [ID_PROGRAMA], onDelete: NoAction, onUpdate: NoAction, map: "plan_estudios_ibfk_1")
+  PLAN_ESTUDIOS_META         PLAN_ESTUDIOS_META[] @ignore
+
+  @@index([ID_PROGRAMA], map: "ID_PROGRAMA")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model PLAN_ESTUDIOS_META {
+  ID_PLAN       Int?
+  META          String?        @db.VarChar(50)
+  PLAN_ESTUDIOS PLAN_ESTUDIOS? @relation(fields: [ID_PLAN], references: [ID_PLAN], onDelete: NoAction, onUpdate: NoAction, map: "plan_estudios_meta_ibfk_1")
+
+  @@index([ID_PLAN], map: "ID_PLAN")
+  @@ignore
+}
+
+model PRODUCTO_ACADEMICO {
+  ID_PRODUCTO         Int                  @id @default(autoincrement())
+  TITULO              String?              @db.VarChar(256)
+  FECHA               DateTime?            @db.Date
+  DESCRIPCION         String?              @db.Text
+  ARCHIVO_EVIDENCIA   Bytes?
+  ID_LGAC             Int?
+  ID_ESTANCIA         Int?
+  ARTICULO            ARTICULO?
+  CAPITULO_LIBRO      CAPITULO_LIBRO?
+  COLABORA            COLABORA[]           @ignore
+  LIBRO               LIBRO?
+  MEMORIA_CONGRESO    MEMORIA_CONGRESO?
+  LGAC                LGAC?                @relation(fields: [ID_LGAC], references: [ID_LGAC], onDelete: NoAction, onUpdate: NoAction, map: "producto_academico_ibfk_1")
+  ESTANCIA            ESTANCIA?            @relation(fields: [ID_ESTANCIA], references: [ID_ESTANCIA], onDelete: NoAction, onUpdate: NoAction, map: "producto_academico_ibfk_2")
+  PROTOTIPO           PROTOTIPO?
+  TRABAJO_RECEPCIONAL TRABAJO_RECEPCIONAL?
+
+  @@index([ID_ESTANCIA], map: "ID_ESTANCIA")
+  @@index([ID_LGAC], map: "ID_LGAC")
+}
+
+model PROGRAMA_EDUCATIVO {
+  ID_PROGRAMA                                            Int                                     @id @default(autoincrement())
+  FECHA_INICIO                                           DateTime?                               @db.Date
+  FECHA_CREACION                                         DateTime?                               @db.Date
+  NUMERO_ACTA                                            String?                                 @db.VarChar(20)
+  ORIENTACION                                            String?                                 @db.VarChar(20)
+  NOMBRE                                                 String?                                 @db.VarChar(50)
+  GRADO                                                  String?                                 @db.VarChar(20)
+  COORDINADOR                                            Int?
+  APROBADO_POR                                           String?                                 @db.VarChar(255)
+  MEDIANTE_EL                                            String?                                 @db.VarChar(255)
+  FOLIO_REGISTRO                                         String?                                 @db.VarChar(20)
+  NUMERO_RENIECYT                                        String?                                 @db.VarChar(20)
+  MODALIDAD                                              String?                                 @db.VarChar(50)
+  CARACTERISTICAS                                        String?                                 @db.VarChar(50)
+  URL                                                    String?                                 @db.VarChar(200)
+  CVU                                                    String?                                 @db.VarChar(20)
+  REPRESENTANTE                                          Int?
+  COORDINADOR_ACTUAL                                     Int?
+  FECHA_FIRMA                                            DateTime?                               @db.Date
+  CONVENIO_MOVILIDAD                                     CONVENIO_MOVILIDAD[]
+  ESTANCIA                                               ESTANCIA[]
+  EVENTO                                                 EVENTO[]
+  PERTENECE                                              PERTENECE[]                             @ignore
+  PLAN_ESTUDIOS                                          PLAN_ESTUDIOS[]
+  PERSONA_PROGRAMA_EDUCATIVO_COORDINADORToPERSONA        PERSONA?                                @relation("PROGRAMA_EDUCATIVO_COORDINADORToPERSONA", fields: [COORDINADOR], references: [ID_PERSONA], onDelete: NoAction, onUpdate: NoAction, map: "fk_coordinador")
+  PERSONA_PROGRAMA_EDUCATIVO_COORDINADOR_ACTUALToPERSONA PERSONA?                                @relation("PROGRAMA_EDUCATIVO_COORDINADOR_ACTUALToPERSONA", fields: [COORDINADOR_ACTUAL], references: [ID_PERSONA], onDelete: Cascade, map: "programa_educativo_ibfk_1")
+  PERSONA_PROGRAMA_EDUCATIVO_REPRESENTANTEToPERSONA      PERSONA?                                @relation("PROGRAMA_EDUCATIVO_REPRESENTANTEToPERSONA", fields: [REPRESENTANTE], references: [ID_PERSONA], onDelete: Cascade, map: "programa_educativo_ibfk_2")
+  PROGRAMA_EDUCATIVO_CAMPO_CONOCIMIENTO                  PROGRAMA_EDUCATIVO_CAMPO_CONOCIMIENTO[] @ignore
+
+  @@index([COORDINADOR_ACTUAL], map: "COORDINADOR_ACTUAL")
+  @@index([REPRESENTANTE], map: "REPRESENTANTE")
+  @@index([COORDINADOR], map: "fk_coordinador")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model PROGRAMA_EDUCATIVO_CAMPO_CONOCIMIENTO {
+  ID_PROGRAMA        Int?
+  CAMPO_CONOCIMIENTO String?             @unique(map: "CAMPO_CONOCIMIENTO") @db.VarChar(50)
+  PROGRAMA_EDUCATIVO PROGRAMA_EDUCATIVO? @relation(fields: [ID_PROGRAMA], references: [ID_PROGRAMA], onDelete: NoAction, onUpdate: NoAction, map: "programa_educativo_campo_conocimiento_ibfk_1")
+
+  @@index([ID_PROGRAMA], map: "ID_PROGRAMA")
+  @@ignore
+}
+
+model PROTOTIPO {
+  ID_PRODUCTO        Int                @id
+  TIPO               String?            @db.VarChar(50)
+  REGISTRO_INDAUTOR  String?            @db.VarChar(256)
+  CIUDAD             String?            @db.VarChar(20)
+  ESTADO             String?            @db.VarChar(20)
+  PAIS               String?            @db.VarChar(20)
+  PRODUCTO_ACADEMICO PRODUCTO_ACADEMICO @relation(fields: [ID_PRODUCTO], references: [ID_PRODUCTO], onDelete: NoAction, onUpdate: NoAction, map: "prototipo_ibfk_1")
+}
+
+model RECONOCIMIENTO {
+  ID_RECONOCIMIENTO Int      @id @default(autoincrement())
+  ANIO              Int?
+  NOMBRE_PREMIO     String?  @db.VarChar(50)
+  INSTITUCION       String?  @db.VarChar(50)
+  ID_PERSONA        Int?
+  PERSONA           PERSONA? @relation(fields: [ID_PERSONA], references: [ID_PERSONA], onDelete: NoAction, onUpdate: NoAction, map: "reconocimiento_ibfk_1")
+
+  @@index([ID_PERSONA], map: "ID_PERSONA")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model REGISTRA {
+  ID_LGAC    Int?
+  ID_PERSONA Int?
+  PERSONA    PERSONA? @relation(fields: [ID_PERSONA], references: [ID_PERSONA], onDelete: NoAction, onUpdate: NoAction, map: "registra_ibfk_1")
+  LGAC       LGAC?    @relation(fields: [ID_LGAC], references: [ID_LGAC], onDelete: NoAction, onUpdate: NoAction, map: "registra_ibfk_2")
+
+  @@index([ID_LGAC], map: "ID_LGAC")
+  @@index([ID_PERSONA], map: "ID_PERSONA")
+  @@ignore
+}
+
+model SINODAL {
+  ID_SINODAL          Int                  @id @default(autoincrement())
+  NOMBRE              String?              @db.VarChar(100)
+  CENTRO_ESTUDIOS     String?              @db.VarChar(100)
+  PROGRAMA_ESTUDIOS   String?              @db.VarChar(100)
+  EXTERNO             Boolean?
+  ID_PRODUCTO         Int?
+  TRABAJO_RECEPCIONAL TRABAJO_RECEPCIONAL? @relation(fields: [ID_PRODUCTO], references: [ID_PRODUCTO], onDelete: NoAction, onUpdate: NoAction, map: "sinodal_ibfk_1")
+
+  @@index([ID_PRODUCTO], map: "ID_PRODUCTO")
+}
+
+model TRABAJO_RECEPCIONAL {
+  ID_PRODUCTO        Int                @id
+  REPOSITORIO        String?            @db.VarChar(256)
+  ESTADO             String?            @db.VarChar(20)
+  ACTA               String?            @db.VarChar(20)
+  LUGAR              String?            @db.VarChar(256)
+  RESULTADO          Float?
+  SINODAL            SINODAL[]
+  PRODUCTO_ACADEMICO PRODUCTO_ACADEMICO @relation(fields: [ID_PRODUCTO], references: [ID_PRODUCTO], onDelete: NoAction, onUpdate: NoAction, map: "trabajo_recepcional_ibfk_1")
+}
+
+model Usuario {
+  ID       String @id @default(uuid())
+  username String
+  password String
+}
+
+model token {
+  id       String  @unique
+  isActive Boolean @default(false)
+}

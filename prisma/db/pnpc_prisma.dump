@@ -1,0 +1,1624 @@
+-- MySQL dump 10.13  Distrib 8.0.27, for macos11 (arm64)
+--
+-- Host: alethetwin.com    Database: pnpc
+-- ------------------------------------------------------
+-- Server version	8.0.31
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `ACADEMICO_DISTINCION`
+--
+
+DROP TABLE IF EXISTS `ACADEMICO_DISTINCION`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ACADEMICO_DISTINCION` (
+  `ID_PERSONA` int DEFAULT NULL,
+  `DISTINCION` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  UNIQUE KEY `DISTINCION` (`DISTINCION`),
+  KEY `ID_PERSONA` (`ID_PERSONA`),
+  CONSTRAINT `academico_distincion_ibfk_1` FOREIGN KEY (`ID_PERSONA`) REFERENCES `PERSONA` (`ID_PERSONA`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ACADEMICO_DISTINCION`
+--
+
+LOCK TABLES `ACADEMICO_DISTINCION` WRITE;
+/*!40000 ALTER TABLE `ACADEMICO_DISTINCION` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ACADEMICO_DISTINCION` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ARTICULO`
+--
+
+DROP TABLE IF EXISTS `ARTICULO`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ARTICULO` (
+  `ID_PRODUCTO` int NOT NULL,
+  `REVISTA` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `PAGINAS` float DEFAULT NULL,
+  `EDITORIAL` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `INDIZACION` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `DOI` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `VOLUMEN` float DEFAULT NULL,
+  `ISSN` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`ID_PRODUCTO`),
+  CONSTRAINT `articulo_ibfk_1` FOREIGN KEY (`ID_PRODUCTO`) REFERENCES `PRODUCTO_ACADEMICO` (`ID_PRODUCTO`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ARTICULO`
+--
+
+LOCK TABLES `ARTICULO` WRITE;
+/*!40000 ALTER TABLE `ARTICULO` DISABLE KEYS */;
+INSERT INTO `ARTICULO` VALUES (2,'Revista de la Alta Tecnología y Sociedad',3,'Academia Journals','EBSCO',NULL,11,'1940 2171'),(3,'Journal CIM',3,'echnology and Educational Research',NULL,NULL,NULL,'2007-8102'),(6,'Alta Tecnología y Sociedad',3,'Academia Journals','EBSCO',NULL,11,'1940- 2171');
+/*!40000 ALTER TABLE `ARTICULO` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `CAPITULO_LIBRO`
+--
+
+DROP TABLE IF EXISTS `CAPITULO_LIBRO`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `CAPITULO_LIBRO` (
+  `ID_PRODUCTO` int NOT NULL,
+  `TITULO_LIBRO` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ISBN` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `PAGINAS` double DEFAULT NULL,
+  `EDITORIAL` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `VOLUMEN` float DEFAULT NULL,
+  PRIMARY KEY (`ID_PRODUCTO`),
+  CONSTRAINT `capitulo_libro_ibfk_1` FOREIGN KEY (`ID_PRODUCTO`) REFERENCES `PRODUCTO_ACADEMICO` (`ID_PRODUCTO`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CAPITULO_LIBRO`
+--
+
+LOCK TABLES `CAPITULO_LIBRO` WRITE;
+/*!40000 ALTER TABLE `CAPITULO_LIBRO` DISABLE KEYS */;
+INSERT INTO `CAPITULO_LIBRO` VALUES (4,'Avances en Tecnologías Interactivas Aplicadas a la Discapacidad','978-607- 525-128-8',20,'BUAP',1);
+/*!40000 ALTER TABLE `CAPITULO_LIBRO` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `COLABORA`
+--
+
+DROP TABLE IF EXISTS `COLABORA`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `COLABORA` (
+  `ID_PRODUCTO` int NOT NULL,
+  `ID_PERSONA` int NOT NULL,
+  `ROL` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`ID_PERSONA`,`ID_PRODUCTO`),
+  KEY `ID_PERSONA` (`ID_PERSONA`),
+  KEY `ID_PRODUCTO` (`ID_PRODUCTO`),
+  CONSTRAINT `colabora_ibfk_1` FOREIGN KEY (`ID_PRODUCTO`) REFERENCES `PRODUCTO_ACADEMICO` (`ID_PRODUCTO`),
+  CONSTRAINT `colabora_ibfk_2` FOREIGN KEY (`ID_PERSONA`) REFERENCES `PERSONA` (`ID_PERSONA`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `COLABORA`
+--
+
+LOCK TABLES `COLABORA` WRITE;
+/*!40000 ALTER TABLE `COLABORA` DISABLE KEYS */;
+INSERT INTO `COLABORA` VALUES (2,1,'COLABORADOR'),(4,1,'COLABORADOR'),(5,1,'DIRECTOR'),(6,1,'COLABORADOR'),(7,1,'COLABORADOR'),(8,1,'DIRECTOR'),(9,1,'DIRECTOR'),(1,3,'AUTOR'),(1,4,'COLABORADOR'),(2,4,'COLABORADOR'),(5,4,'DIRECTOR'),(6,4,'COLABORADOR'),(2,5,'AUTOR'),(5,5,'AUTOR'),(3,6,'COLABORADOR'),(3,7,'AUTOR'),(4,8,'COLABORADOR'),(4,9,'COLABORADOR'),(4,10,'AUTOR'),(6,10,'AUTOR'),(7,13,'AUTOR'),(7,14,'AUTOR'),(8,15,'AUTOR'),(8,16,'DIRECTOR'),(9,17,'AUTOR'),(9,18,'DIRECTOR');
+/*!40000 ALTER TABLE `COLABORA` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `CONVENIO_MOVILIDAD`
+--
+
+DROP TABLE IF EXISTS `CONVENIO_MOVILIDAD`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `CONVENIO_MOVILIDAD` (
+  `ID_CONVENIO` int NOT NULL AUTO_INCREMENT,
+  `NOMBRE_INSTITUCION` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `SECTOR` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `FECHA_INICIO` date DEFAULT NULL,
+  `FECHA_FINAL` date DEFAULT NULL,
+  `ID_PROGRAMA` int DEFAULT NULL,
+  PRIMARY KEY (`ID_CONVENIO`),
+  KEY `ID_PROGRAMA` (`ID_PROGRAMA`),
+  CONSTRAINT `convenio_movilidad_ibfk_1` FOREIGN KEY (`ID_PROGRAMA`) REFERENCES `PROGRAMA_EDUCATIVO` (`ID_PROGRAMA`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CONVENIO_MOVILIDAD`
+--
+
+LOCK TABLES `CONVENIO_MOVILIDAD` WRITE;
+/*!40000 ALTER TABLE `CONVENIO_MOVILIDAD` DISABLE KEYS */;
+/*!40000 ALTER TABLE `CONVENIO_MOVILIDAD` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `DESIGNA`
+--
+
+DROP TABLE IF EXISTS `DESIGNA`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `DESIGNA` (
+  `ROL` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `FECHA_INICIO` date DEFAULT NULL,
+  `FECHA_FINAL` date DEFAULT NULL,
+  `ID_PERSONA_ACADEMICO` int DEFAULT NULL,
+  `ID_PERSONA_ESTUDIANTE` int DEFAULT NULL,
+  KEY `ID_PERSONA_ACADEMICO` (`ID_PERSONA_ACADEMICO`),
+  KEY `ID_PERSONA_ESTUDIANTE` (`ID_PERSONA_ESTUDIANTE`),
+  CONSTRAINT `designa_ibfk_1` FOREIGN KEY (`ID_PERSONA_ACADEMICO`) REFERENCES `PERSONA` (`ID_PERSONA`),
+  CONSTRAINT `designa_ibfk_2` FOREIGN KEY (`ID_PERSONA_ESTUDIANTE`) REFERENCES `PERSONA` (`ID_PERSONA`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `DESIGNA`
+--
+
+LOCK TABLES `DESIGNA` WRITE;
+/*!40000 ALTER TABLE `DESIGNA` DISABLE KEYS */;
+/*!40000 ALTER TABLE `DESIGNA` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `EJERCICIO_PROFESIONAL`
+--
+
+DROP TABLE IF EXISTS `EJERCICIO_PROFESIONAL`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `EJERCICIO_PROFESIONAL` (
+  `ID_EJERCICIO_PROFESIONAL` int NOT NULL AUTO_INCREMENT,
+  `INSTITUCION` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `TIPO` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `NOMBRE` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `DESCRIPCION` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `CIUDAD` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ESTADO` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `PAIS` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ID_PERSONA` int DEFAULT NULL,
+  PRIMARY KEY (`ID_EJERCICIO_PROFESIONAL`),
+  KEY `ID_PERSONA` (`ID_PERSONA`),
+  CONSTRAINT `ejercicio_profesional_ibfk_1` FOREIGN KEY (`ID_PERSONA`) REFERENCES `PERSONA` (`ID_PERSONA`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `EJERCICIO_PROFESIONAL`
+--
+
+LOCK TABLES `EJERCICIO_PROFESIONAL` WRITE;
+/*!40000 ALTER TABLE `EJERCICIO_PROFESIONAL` DISABLE KEYS */;
+/*!40000 ALTER TABLE `EJERCICIO_PROFESIONAL` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `EMPLEO`
+--
+
+DROP TABLE IF EXISTS `EMPLEO`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `EMPLEO` (
+  `ID_EMPLEO` int NOT NULL AUTO_INCREMENT,
+  `DESCRIPCION` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `FECHA_INICIO` date DEFAULT NULL,
+  `FECHA_FINAL` date DEFAULT NULL,
+  `ARCHIVO_EVIDENCIA` blob,
+  `ID_PERSONA` int DEFAULT NULL,
+  PRIMARY KEY (`ID_EMPLEO`),
+  KEY `ID_PERSONA` (`ID_PERSONA`),
+  CONSTRAINT `empleo_ibfk_1` FOREIGN KEY (`ID_PERSONA`) REFERENCES `PERSONA` (`ID_PERSONA`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `EMPLEO`
+--
+
+LOCK TABLES `EMPLEO` WRITE;
+/*!40000 ALTER TABLE `EMPLEO` DISABLE KEYS */;
+/*!40000 ALTER TABLE `EMPLEO` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ESTANCIA`
+--
+
+DROP TABLE IF EXISTS `ESTANCIA`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ESTANCIA` (
+  `ID_ESTANCIA` int NOT NULL AUTO_INCREMENT,
+  `AMBITO` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `TIPO` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `SECTOR` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `PROGRAMA_DESTINO` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `INSTITUCION_DESTINO` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `MOTIVO` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `PAIS` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ECHA_INICIO` date DEFAULT NULL,
+  `FECHA_FINAL` date DEFAULT NULL,
+  `ID_CONVENIO` int DEFAULT NULL,
+  `ID_PROGRAMA` int DEFAULT NULL,
+  `ID_PERSONA` int DEFAULT NULL,
+  PRIMARY KEY (`ID_ESTANCIA`),
+  KEY `ID_CONVENIO` (`ID_CONVENIO`),
+  KEY `ID_PERSONA` (`ID_PERSONA`),
+  KEY `ID_PROGRAMA` (`ID_PROGRAMA`),
+  CONSTRAINT `estancia_ibfk_1` FOREIGN KEY (`ID_PROGRAMA`) REFERENCES `PROGRAMA_EDUCATIVO` (`ID_PROGRAMA`),
+  CONSTRAINT `estancia_ibfk_2` FOREIGN KEY (`ID_PERSONA`) REFERENCES `PERSONA` (`ID_PERSONA`),
+  CONSTRAINT `estancia_ibfk_3` FOREIGN KEY (`ID_CONVENIO`) REFERENCES `CONVENIO_MOVILIDAD` (`ID_CONVENIO`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ESTANCIA`
+--
+
+LOCK TABLES `ESTANCIA` WRITE;
+/*!40000 ALTER TABLE `ESTANCIA` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ESTANCIA` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `EVENTO`
+--
+
+DROP TABLE IF EXISTS `EVENTO`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `EVENTO` (
+  `ID_EVENTO` int NOT NULL AUTO_INCREMENT,
+  `NOMBRE` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `DESCRIPCION` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ARCHIVO_EVIDENCIA` blob,
+  `FECHA_INICIO` date DEFAULT NULL,
+  `FECHA_FINAL` date DEFAULT NULL,
+  `ID_PROGRAMA` int DEFAULT NULL,
+  PRIMARY KEY (`ID_EVENTO`),
+  KEY `ID_PROGRAMA` (`ID_PROGRAMA`),
+  CONSTRAINT `evento_ibfk_1` FOREIGN KEY (`ID_PROGRAMA`) REFERENCES `PROGRAMA_EDUCATIVO` (`ID_PROGRAMA`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `EVENTO`
+--
+
+LOCK TABLES `EVENTO` WRITE;
+/*!40000 ALTER TABLE `EVENTO` DISABLE KEYS */;
+INSERT INTO `EVENTO` VALUES (1,'Carteles IV Coloquio MSICU',NULL,NULL,'2019-05-15','2019-05-18',2),(2,'Programa IV Coloquio MSICU',NULL,NULL,'2019-05-15','2019-05-18',2),(3,'Reconocimientos a organizadores IV Coloquio MSICU',NULL,NULL,'2019-05-15','2019-05-18',2),(4,'Programa VIII Foro DCC',NULL,NULL,'2019-06-05','2019-06-10',2),(5,'Talleres VIII Foro DCC ',NULL,NULL,'2019-06-05','2019-06-10',2);
+/*!40000 ALTER TABLE `EVENTO` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `FINANCIAMIENTO`
+--
+
+DROP TABLE IF EXISTS `FINANCIAMIENTO`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `FINANCIAMIENTO` (
+  `ID_FINANCIAMIENTO` int NOT NULL AUTO_INCREMENT,
+  `NUMERO_BECA` int DEFAULT NULL,
+  `DESCRIPCION` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `MONTO` double DEFAULT NULL,
+  `TIPO` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `OTORGANTE` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `FECHA_INICIO` date DEFAULT NULL,
+  `FECHA_FINAL` date DEFAULT NULL,
+  `ID_PERSONA` int DEFAULT NULL,
+  PRIMARY KEY (`ID_FINANCIAMIENTO`),
+  KEY `ID_PERSONA` (`ID_PERSONA`),
+  CONSTRAINT `financiamiento_ibfk_1` FOREIGN KEY (`ID_PERSONA`) REFERENCES `PERSONA` (`ID_PERSONA`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `FINANCIAMIENTO`
+--
+
+LOCK TABLES `FINANCIAMIENTO` WRITE;
+/*!40000 ALTER TABLE `FINANCIAMIENTO` DISABLE KEYS */;
+/*!40000 ALTER TABLE `FINANCIAMIENTO` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `FORMACION_COMPLEMENTARIA`
+--
+
+DROP TABLE IF EXISTS `FORMACION_COMPLEMENTARIA`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `FORMACION_COMPLEMENTARIA` (
+  `ID_FORMACION_COMPLEMENTARIA` int NOT NULL AUTO_INCREMENT,
+  `DESCRIPCION` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `TIPO` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `INSTITUCION` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `NOMBRE` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ARCHIVO_EVIDENCIA` blob,
+  `ID_PERSONA` int DEFAULT NULL,
+  PRIMARY KEY (`ID_FORMACION_COMPLEMENTARIA`),
+  KEY `ID_PERSONA` (`ID_PERSONA`),
+  CONSTRAINT `formacion_complementaria_ibfk_1` FOREIGN KEY (`ID_PERSONA`) REFERENCES `PERSONA` (`ID_PERSONA`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `FORMACION_COMPLEMENTARIA`
+--
+
+LOCK TABLES `FORMACION_COMPLEMENTARIA` WRITE;
+/*!40000 ALTER TABLE `FORMACION_COMPLEMENTARIA` DISABLE KEYS */;
+/*!40000 ALTER TABLE `FORMACION_COMPLEMENTARIA` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `GENERACION`
+--
+
+DROP TABLE IF EXISTS `GENERACION`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `GENERACION` (
+  `ID_GENERACION` int NOT NULL AUTO_INCREMENT,
+  `ID_PLAN` int DEFAULT NULL,
+  `FECHA_INICIO` date DEFAULT NULL,
+  `FECHA_FINAL` date DEFAULT NULL,
+  PRIMARY KEY (`ID_GENERACION`),
+  KEY `ID_PLAN` (`ID_PLAN`),
+  CONSTRAINT `generacion_ibfk_1` FOREIGN KEY (`ID_PLAN`) REFERENCES `PLAN_ESTUDIOS` (`ID_PLAN`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `GENERACION`
+--
+
+LOCK TABLES `GENERACION` WRITE;
+/*!40000 ALTER TABLE `GENERACION` DISABLE KEYS */;
+INSERT INTO `GENERACION` VALUES (1,1,'2017-08-01','2019-07-01'),(2,1,'2016-08-01','2020-07-01'),(3,1,'2014-08-01','2016-07-01'),(4,1,'2012-08-01','2014-07-01');
+/*!40000 ALTER TABLE `GENERACION` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `GRADO`
+--
+
+DROP TABLE IF EXISTS `GRADO`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `GRADO` (
+  `ID_GRADO` int NOT NULL AUTO_INCREMENT,
+  `NIVEL` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `FECHA_INICIO` date DEFAULT NULL,
+  `FECHA_FINAL` date DEFAULT NULL,
+  `INSTITUCION` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `NOMBRE_PROGRAMA` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `CIUDAD` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ESTADO` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `PAIS` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ARCHIVO_EVIDENCIA` blob,
+  `ID_PERSONA` int DEFAULT NULL,
+  PRIMARY KEY (`ID_GRADO`),
+  KEY `ID_PERSONA` (`ID_PERSONA`),
+  CONSTRAINT `grado_ibfk_1` FOREIGN KEY (`ID_PERSONA`) REFERENCES `PERSONA` (`ID_PERSONA`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `GRADO`
+--
+
+LOCK TABLES `GRADO` WRITE;
+/*!40000 ALTER TABLE `GRADO` DISABLE KEYS */;
+/*!40000 ALTER TABLE `GRADO` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `LGAC`
+--
+
+DROP TABLE IF EXISTS `LGAC`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `LGAC` (
+  `ID_LGAC` int NOT NULL AUTO_INCREMENT,
+  `NOMBRE` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `INSTITUCION` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `DESCRIPCION` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `JUSTIFICACION` text COLLATE utf8mb4_unicode_ci,
+  `CLASIFICACION` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ESTADO` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`ID_LGAC`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `LGAC`
+--
+
+LOCK TABLES `LGAC` WRITE;
+/*!40000 ALTER TABLE `LGAC` DISABLE KEYS */;
+INSERT INTO `LGAC` VALUES (1,'Tecnología Computacional y de Comunicaciones para los Sistemas Interactivos Centrados en el Usuario','Universidad Veracruzana','Desc1','Justifi1','Clas1','ACTIVA'),(2,'Cómputo centrado en el usuario','Universidad Veracruzana','Desc2','Justifi2','Class1','ACTIVA');
+/*!40000 ALTER TABLE `LGAC` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `LIBRO`
+--
+
+DROP TABLE IF EXISTS `LIBRO`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `LIBRO` (
+  `ID_PRODUCTO` int NOT NULL,
+  `ISBN` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `PAGINAS` double DEFAULT NULL,
+  `EDITORIAL` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `INDIZACION` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `VOLUMEN` float DEFAULT NULL,
+  PRIMARY KEY (`ID_PRODUCTO`),
+  CONSTRAINT `libro_ibfk_1` FOREIGN KEY (`ID_PRODUCTO`) REFERENCES `PRODUCTO_ACADEMICO` (`ID_PRODUCTO`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `LIBRO`
+--
+
+LOCK TABLES `LIBRO` WRITE;
+/*!40000 ALTER TABLE `LIBRO` DISABLE KEYS */;
+/*!40000 ALTER TABLE `LIBRO` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `MEMORIA_CONGRESO`
+--
+
+DROP TABLE IF EXISTS `MEMORIA_CONGRESO`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `MEMORIA_CONGRESO` (
+  `ID_PRODUCTO` int NOT NULL,
+  `FECHA` date DEFAULT NULL,
+  `PAGINAS` float DEFAULT NULL,
+  `ISBN` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `NOMBRE_CONGRESO` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `CIUDAD` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ESTADO` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `PAIS` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`ID_PRODUCTO`),
+  CONSTRAINT `memoria_congreso_ibfk_1` FOREIGN KEY (`ID_PRODUCTO`) REFERENCES `PRODUCTO_ACADEMICO` (`ID_PRODUCTO`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `MEMORIA_CONGRESO`
+--
+
+LOCK TABLES `MEMORIA_CONGRESO` WRITE;
+/*!40000 ALTER TABLE `MEMORIA_CONGRESO` DISABLE KEYS */;
+INSERT INTO `MEMORIA_CONGRESO` VALUES (1,'2019-06-01',2,'12312-12321-12321ASA','Knowledge Graphs and Semantic Web','Habana',NULL,'Cuba');
+/*!40000 ALTER TABLE `MEMORIA_CONGRESO` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `PERSONA`
+--
+
+DROP TABLE IF EXISTS `PERSONA`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `PERSONA` (
+  `ID_PERSONA` int NOT NULL AUTO_INCREMENT,
+  `NOMBRE` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `APELLIDO_PATERNO` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `APELLIDO_MATERNO` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `EMAIL` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `CVU` int DEFAULT NULL,
+  `ESTADO` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ID_GENERACION` int DEFAULT NULL,
+  `CATEGORIA` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `INSTITUCION` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `TIPO` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`ID_PERSONA`),
+  KEY `ID_GENERACION` (`ID_GENERACION`),
+  CONSTRAINT `persona_ibfk_1` FOREIGN KEY (`ID_GENERACION`) REFERENCES `GENERACION` (`ID_GENERACION`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PERSONA`
+--
+
+LOCK TABLES `PERSONA` WRITE;
+/*!40000 ALTER TABLE `PERSONA` DISABLE KEYS */;
+INSERT INTO `PERSONA` VALUES (1,'Edgard Iván','Benìtez','Guerrero','edbenitez@uv.mx',69125,NULL,NULL,'Tiempo Completo','Universidad Veracruzana','ACADEMICO'),(2,'Luis Gerardo','Montane','Jiménez','lmontane@uv.mx',333902,NULL,NULL,'Tiempo Completo','Universidad Veracruzana','ACADEMICO'),(3,'Rolando','Ramírez','Rueda','roraru@example.com',123,'Estudiante',1,NULL,NULL,'ESTUDIANTE'),(4,'María del Carmen','Mezura','Godoy','cmezura@uv.mx',203733,NULL,NULL,'Tiempo Completo','Universidad Veracruzana','ACADEMICO'),(5,'Pedro Antonio','Paredes','Rendón','pepare@example.com',125,'Estudiante',1,NULL,NULL,'ESTUDIANTE'),(6,'Carlos Alberto','Ochoa','Rivera','cochoa@uv.mx',247826,NULL,NULL,'Tiempo Completo','Universidad Veracruzana','ACADEMICO'),(7,'David','Bello ','Bustamante','dabebu@example.com',123123123,'Estudiante',2,NULL,NULL,'ESTUDIANTE'),(8,'José Rafael','Rojano','Cáseres','rrojano@uv.mx',86996,NULL,NULL,'Tiempo Completo','Universidad Veracruzana','ACADEMICO'),(9,'Genero','Rebolledo','Méndez','gereme@example.com',1234432,NULL,NULL,'Tiempo Completo','Universidad de Xalapa','ACADEMICO_EXTERNO'),(10,'Omar','Ameca','Alducin','omaal@example.com',98098,'Estudiante',3,NULL,NULL,'ESTUDIANTE'),(12,'Sara','Gutiérrez ','de Frías','saragu@example.com',123213,'Egresado',1,NULL,NULL,'ESTUDIANTE'),(13,'Frakhri','Sherafatmand','León','frash@example.com',32423,'Egresado',4,NULL,NULL,'ESTUDIANTE'),(14,'José Guillermo','Hernández','Calderon','josehe@example.com',54346,'Egresado',4,NULL,NULL,'ESTUDIANTE'),(15,'Heber','Avalos','Viveros','heav@example.com',6786,'Estudiante',1,NULL,NULL,'ESTUDIANTE'),(16,'Guillermo Gilberto','Molero','Castillo','gmcastillo@uv.mx',4334,NULL,NULL,NULL,'Universidad Veracruzana','ACADEMICO'),(17,'Ari Jahaziel','Rodríguez','Cruz Abeyro','arroc@example.com',5675,'Estudiante',NULL,NULL,NULL,'ESTUDIANTE'),(18,'Ismael','Everardo Bárcenas','Patiño','iepatino@example.com',57858,NULL,NULL,NULL,'Universidad Veracruzana','ACADEMICO_EXTERNO');
+/*!40000 ALTER TABLE `PERSONA` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `PERTENECE`
+--
+
+DROP TABLE IF EXISTS `PERTENECE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `PERTENECE` (
+  `ID_PROGRAMA` int DEFAULT NULL,
+  `ID_PERSONA` int DEFAULT NULL,
+  `FECHA_INGRESO` date DEFAULT NULL,
+  `FECHA_EGRESO` date DEFAULT NULL,
+  `NAB` tinyint(1) DEFAULT NULL,
+  `CARTA_NAB` blob,
+  KEY `ID_PERSONA` (`ID_PERSONA`),
+  KEY `ID_PROGRAMA` (`ID_PROGRAMA`),
+  CONSTRAINT `pertenece_ibfk_1` FOREIGN KEY (`ID_PERSONA`) REFERENCES `PERSONA` (`ID_PERSONA`),
+  CONSTRAINT `pertenece_ibfk_2` FOREIGN KEY (`ID_PROGRAMA`) REFERENCES `PROGRAMA_EDUCATIVO` (`ID_PROGRAMA`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PERTENECE`
+--
+
+LOCK TABLES `PERTENECE` WRITE;
+/*!40000 ALTER TABLE `PERTENECE` DISABLE KEYS */;
+INSERT INTO `PERTENECE` VALUES (1,1,'2010-01-01',NULL,1,NULL),(2,2,'2010-01-01',NULL,1,NULL),(2,1,'2012-01-01',NULL,1,NULL),(2,4,'2012-01-01',NULL,1,NULL),(2,6,'2009-01-01',NULL,1,NULL),(2,8,'2009-01-01',NULL,1,NULL);
+/*!40000 ALTER TABLE `PERTENECE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `PLAN_ESTUDIOS`
+--
+
+DROP TABLE IF EXISTS `PLAN_ESTUDIOS`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `PLAN_ESTUDIOS` (
+  `ID_PLAN` int NOT NULL AUTO_INCREMENT,
+  `DESCRIPCION_MODIFICACIONES` text COLLATE utf8mb4_unicode_ci,
+  `PERFIL_INGRESO` text COLLATE utf8mb4_unicode_ci,
+  `PERFIL_EGRESO` text COLLATE utf8mb4_unicode_ci,
+  `FECHA_INICIO` date DEFAULT NULL,
+  `FECHA_FINAL` date DEFAULT NULL,
+  `ID_PROGRAMA` int DEFAULT NULL,
+  PRIMARY KEY (`ID_PLAN`),
+  KEY `ID_PROGRAMA` (`ID_PROGRAMA`),
+  CONSTRAINT `plan_estudios_ibfk_1` FOREIGN KEY (`ID_PROGRAMA`) REFERENCES `PROGRAMA_EDUCATIVO` (`ID_PROGRAMA`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PLAN_ESTUDIOS`
+--
+
+LOCK TABLES `PLAN_ESTUDIOS` WRITE;
+/*!40000 ALTER TABLE `PLAN_ESTUDIOS` DISABLE KEYS */;
+INSERT INTO `PLAN_ESTUDIOS` VALUES (1,'Desc1','El aspirante al programa de la MSICU deberá mostrar las siguientes competencias, conocimientos, habilidades y valores. Con relación a las competencias el aspirante deberá mostrar lo siguiente:\n• Modelar y proponer soluciones a problemas de cómputo.\n• Realizar abstracción y síntesis.\nAdemás, el aspirante deberá contar conocimientos en:\n• Resolución de problemas desde un enfoque computacional.\n• Conocimientos en programación.\n• Conocimientos básicos en ingeniería de software, redes y matemáticas.\n• Expresión y lectura técnica básica del inglés.\nEn términos de habilidades y valores el aspirante deberá mostrar:\n• Capacidad de investigación documental.\n• Modelar y proponer soluciones a problemas complejos.\n• Realizar abstracción y síntesis.\n• Compromiso al estudio con disciplina y orden.\n• Interés por el estudio de la disciplina.\n• Interés por el bienestar de la comunidad y la sociedad y el medio ambiente en general, apegándose a la ética profesional y sus normas, con compromiso, responsabilidad, respeto y tolerancia.','Los egresados tendrán los conocimientos, habilidades y destrezas aprendidas durante su formación académica, que les permitirá contar con una sólida preparación teórica y práctica en Sistemas Interactivos Centrados en el Usuario que fomente su desarrollo en el sector público y privado resolviendo problemas que puedan ser abordados mediante soluciones basadas en sistemas interactivos, mostrando las siguientes competencias, conocimientos, habilidades y valores.\nLos egresados adquirirán las siguientes competencias:\n• Generar, asimilar y aplicar conocimientos teóricos y tecnológicos en forma original e innovadora.\n• Aplicar métodos y técnicas avanzados en el desarrollo y evaluación de proyectos tecnológicos en el área.\n• Trabajar proactivamente en proyectos de desarrollo tecnológico complejos e interdisciplinarios.\n• Diseñar soluciones de software desde una perspectiva centrada en el usuario.\n• Dar solución a problemas en el área del programa, en el sector público y privado.\nLos conocimientos que adquirirán los egresados son los siguientes:\n• Principios metodológicos y técnicas para el diseño de sistemas interactivo centrado en el usuario.\n• Metodologías y métricas para la evaluación de usabilidad y experiencia de usuario del software interactivo.\n• Tecnología para el desarrollo de sistemas interactivos centrados en el usuario.\nMientras que para habilidades, actividades y valores los egresados contarán con lo siguiente:\n• Capacidad para aplicar principios y métodos para el desarrollo y evaluación de sistemas interactivos.\n• Capacidad para comprender y producir textos científicos o tecnológicos especializados.\n• Capacidad para asimilar, diseñar y producir nuevas tecnologías.\n• Capacidad para integrarse a grupos multidisciplinarios.\n• Compromiso en el desarrollo de sus actividades o profesionales mostrando disposición hacia la búsqueda del conocimiento, con honestidad, tolerancia y respeto al ambiente y a los usuarios.\n• Compromiso ante los procesos administrativos y académicos fomentados a partir de la tutoría académica y seguimiento de sus trabajos recepcionales ante un director o tutor. Esto se fomenta también a través de entrega en tiempo y forma de avances de trabajo recepcional y otras actividades cumpliendo con los requisitos señalados en los programas educativos del plan de estudios.\n','2020-01-01',NULL,2);
+/*!40000 ALTER TABLE `PLAN_ESTUDIOS` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `PLAN_ESTUDIOS_META`
+--
+
+DROP TABLE IF EXISTS `PLAN_ESTUDIOS_META`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `PLAN_ESTUDIOS_META` (
+  `ID_PLAN` int DEFAULT NULL,
+  `META` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  KEY `ID_PLAN` (`ID_PLAN`),
+  CONSTRAINT `plan_estudios_meta_ibfk_1` FOREIGN KEY (`ID_PLAN`) REFERENCES `PLAN_ESTUDIOS` (`ID_PLAN`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PLAN_ESTUDIOS_META`
+--
+
+LOCK TABLES `PLAN_ESTUDIOS_META` WRITE;
+/*!40000 ALTER TABLE `PLAN_ESTUDIOS_META` DISABLE KEYS */;
+/*!40000 ALTER TABLE `PLAN_ESTUDIOS_META` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `PRODUCTO_ACADEMICO`
+--
+
+DROP TABLE IF EXISTS `PRODUCTO_ACADEMICO`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `PRODUCTO_ACADEMICO` (
+  `ID_PRODUCTO` int NOT NULL AUTO_INCREMENT,
+  `TITULO` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `FECHA` date DEFAULT NULL,
+  `DESCRIPCION` text COLLATE utf8mb4_unicode_ci,
+  `ARCHIVO_EVIDENCIA` longblob,
+  `ID_LGAC` int DEFAULT NULL,
+  `ID_ESTANCIA` int DEFAULT NULL,
+  PRIMARY KEY (`ID_PRODUCTO`),
+  KEY `ID_ESTANCIA` (`ID_ESTANCIA`),
+  KEY `ID_LGAC` (`ID_LGAC`),
+  CONSTRAINT `producto_academico_ibfk_1` FOREIGN KEY (`ID_LGAC`) REFERENCES `LGAC` (`ID_LGAC`),
+  CONSTRAINT `producto_academico_ibfk_2` FOREIGN KEY (`ID_ESTANCIA`) REFERENCES `ESTANCIA` (`ID_ESTANCIA`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PRODUCTO_ACADEMICO`
+--
+
+LOCK TABLES `PRODUCTO_ACADEMICO` WRITE;
+/*!40000 ALTER TABLE `PRODUCTO_ACADEMICO` DISABLE KEYS */;
+INSERT INTO `PRODUCTO_ACADEMICO` VALUES (1,'Expressive Context Modeling with Description Logics','2019-06-01',NULL,NULL,1,NULL),(2,'Interfaces tangibles de usuario basadas en papel: estado del arte','2019-06-02',NULL,NULL,1,NULL),(3,'Análisis de seguridad para la autenticación y privacidad en Entornos IoT.','2019-01-01',NULL,NULL,1,NULL),(4,'Guía de desarrollo de aplicaciones móviles orientadas a personas sordas en “Avances en Tecnologías Interactivas Aplicadas a la Discapacidad”.','2016-01-01',NULL,NULL,1,NULL),(5,'PaperTUI: Sistema tangible para el prototipado de interfaces gráficas de usuario','2020-01-01','El objetivo de Digital Desk no es transformar el papel en documentos digitales, sino apoyar las interacciones rápidas con regiones seleccionadas de los documentos. En vez de hacer que los usuarios trabajen en el mundo digital, se buscó hacer que ellos trabajen en el mundo físico como lo harían de manera tradicional.',_binary 'oakjdsfpoafjs',1,NULL),(6,'Hacía un marco de evaluación de experiencia de usuario en aplicaciones colaborativas','2019-01-01',NULL,NULL,2,NULL),(7,'Dinosaurios: Libro infantil de realidad aumentada','2014-01-01',NULL,NULL,2,NULL),(8,'Framework para el tratamiento de bioseñales de tipo electrocardiografía obtenidas a través de dispositivos corporales inteligentes','2020-01-01','Hoy en día, gracias a los avances tecnológicos es posible obtener señales eléctricas de los usuarios, conocida como bioseñales, por medio de diferentes dispositivos corporales de monitoreo de uso diario, como relojes y teléfonos inteligentes. Esta adquisición de bioseñales ha permitido su aplicación en diversos campos de estudio, como en la Interacción Humano Computadora, donde se puede adquirir señales eléctricas del estado físico y mental de usuarios, con el propósito de evaluar patrones de comportamiento en éstos.',NULL,1,NULL),(9,'Detección de patrones en la mirada mediante verificación de modelos','2020-01-01','La detección de patrones en la mirada tiene diferentes aplicaciones en el campo de la interacción humano-computadora, ya que permite evaluar la usabilidad, arquitectura de la información e incluso el diseño de los sitios Web. Algunos métodos segmentan las páginas Web de acuerdo con los elementos que contienen y posteriormente los etiquetan con una letra, lo que permite generar una secuencia de caracteres y mediante algoritmos de edición de cadenas es posible encontrar ciertos patrones.',NULL,1,NULL);
+/*!40000 ALTER TABLE `PRODUCTO_ACADEMICO` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `PROGRAMA_EDUCATIVO`
+--
+
+DROP TABLE IF EXISTS `PROGRAMA_EDUCATIVO`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `PROGRAMA_EDUCATIVO` (
+  `ID_PROGRAMA` int NOT NULL AUTO_INCREMENT,
+  `FECHA_INICIO` date DEFAULT NULL,
+  `FECHA_CREACION` date DEFAULT NULL,
+  `NUMERO_ACTA` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ORIENTACION` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `NOMBRE` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `GRADO` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `COORDINADOR` int DEFAULT NULL,
+  `APROBADO_POR` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `MEDIANTE_EL` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `FOLIO_REGISTRO` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `NUMERO_RENIECYT` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `MODALIDAD` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `CARACTERISTICAS` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `URL` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `CVU` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `REPRESENTANTE` int DEFAULT NULL,
+  `COORDINADOR_ACTUAL` int DEFAULT NULL,
+  `FECHA_FIRMA` date DEFAULT NULL,
+  PRIMARY KEY (`ID_PROGRAMA`),
+  KEY `COORDINADOR_ACTUAL` (`COORDINADOR_ACTUAL`),
+  KEY `REPRESENTANTE` (`REPRESENTANTE`),
+  KEY `fk_coordinador` (`COORDINADOR`),
+  CONSTRAINT `fk_coordinador` FOREIGN KEY (`COORDINADOR`) REFERENCES `PERSONA` (`ID_PERSONA`),
+  CONSTRAINT `programa_educativo_ibfk_1` FOREIGN KEY (`COORDINADOR_ACTUAL`) REFERENCES `PERSONA` (`ID_PERSONA`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `programa_educativo_ibfk_2` FOREIGN KEY (`REPRESENTANTE`) REFERENCES `PERSONA` (`ID_PERSONA`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PROGRAMA_EDUCATIVO`
+--
+
+LOCK TABLES `PROGRAMA_EDUCATIVO` WRITE;
+/*!40000 ALTER TABLE `PROGRAMA_EDUCATIVO` DISABLE KEYS */;
+INSERT INTO `PROGRAMA_EDUCATIVO` VALUES (1,'2010-01-01','2009-02-02','123546-ABC','Investigación','Doctorado en Ciencias de la Computación','Doctorado',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,'2010-01-01','2009-02-02','123546-ABC','Profesional','Sistemas Interactivos Centrados en el Usuario','Maestria',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+/*!40000 ALTER TABLE `PROGRAMA_EDUCATIVO` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `PROGRAMA_EDUCATIVO_CAMPO_CONOCIMIENTO`
+--
+
+DROP TABLE IF EXISTS `PROGRAMA_EDUCATIVO_CAMPO_CONOCIMIENTO`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `PROGRAMA_EDUCATIVO_CAMPO_CONOCIMIENTO` (
+  `ID_PROGRAMA` int DEFAULT NULL,
+  `CAMPO_CONOCIMIENTO` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  UNIQUE KEY `CAMPO_CONOCIMIENTO` (`CAMPO_CONOCIMIENTO`),
+  KEY `ID_PROGRAMA` (`ID_PROGRAMA`),
+  CONSTRAINT `programa_educativo_campo_conocimiento_ibfk_1` FOREIGN KEY (`ID_PROGRAMA`) REFERENCES `PROGRAMA_EDUCATIVO` (`ID_PROGRAMA`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PROGRAMA_EDUCATIVO_CAMPO_CONOCIMIENTO`
+--
+
+LOCK TABLES `PROGRAMA_EDUCATIVO_CAMPO_CONOCIMIENTO` WRITE;
+/*!40000 ALTER TABLE `PROGRAMA_EDUCATIVO_CAMPO_CONOCIMIENTO` DISABLE KEYS */;
+/*!40000 ALTER TABLE `PROGRAMA_EDUCATIVO_CAMPO_CONOCIMIENTO` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `PROTOTIPO`
+--
+
+DROP TABLE IF EXISTS `PROTOTIPO`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `PROTOTIPO` (
+  `ID_PRODUCTO` int NOT NULL,
+  `TIPO` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `REGISTRO_INDAUTOR` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `CIUDAD` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ESTADO` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `PAIS` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`ID_PRODUCTO`),
+  CONSTRAINT `prototipo_ibfk_1` FOREIGN KEY (`ID_PRODUCTO`) REFERENCES `PRODUCTO_ACADEMICO` (`ID_PRODUCTO`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PROTOTIPO`
+--
+
+LOCK TABLES `PROTOTIPO` WRITE;
+/*!40000 ALTER TABLE `PROTOTIPO` DISABLE KEYS */;
+INSERT INTO `PROTOTIPO` VALUES (7,'PROTOTIPO',NULL,NULL,NULL,NULL);
+/*!40000 ALTER TABLE `PROTOTIPO` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `RECONOCIMIENTO`
+--
+
+DROP TABLE IF EXISTS `RECONOCIMIENTO`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `RECONOCIMIENTO` (
+  `ID_RECONOCIMIENTO` int NOT NULL AUTO_INCREMENT,
+  `ANIO` int DEFAULT NULL,
+  `NOMBRE_PREMIO` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `INSTITUCION` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ID_PERSONA` int DEFAULT NULL,
+  PRIMARY KEY (`ID_RECONOCIMIENTO`),
+  KEY `ID_PERSONA` (`ID_PERSONA`),
+  CONSTRAINT `reconocimiento_ibfk_1` FOREIGN KEY (`ID_PERSONA`) REFERENCES `PERSONA` (`ID_PERSONA`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `RECONOCIMIENTO`
+--
+
+LOCK TABLES `RECONOCIMIENTO` WRITE;
+/*!40000 ALTER TABLE `RECONOCIMIENTO` DISABLE KEYS */;
+/*!40000 ALTER TABLE `RECONOCIMIENTO` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `REGISTRA`
+--
+
+DROP TABLE IF EXISTS `REGISTRA`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `REGISTRA` (
+  `ID_LGAC` int DEFAULT NULL,
+  `ID_PERSONA` int DEFAULT NULL,
+  KEY `ID_LGAC` (`ID_LGAC`),
+  KEY `ID_PERSONA` (`ID_PERSONA`),
+  CONSTRAINT `registra_ibfk_1` FOREIGN KEY (`ID_PERSONA`) REFERENCES `PERSONA` (`ID_PERSONA`),
+  CONSTRAINT `registra_ibfk_2` FOREIGN KEY (`ID_LGAC`) REFERENCES `LGAC` (`ID_LGAC`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `REGISTRA`
+--
+
+LOCK TABLES `REGISTRA` WRITE;
+/*!40000 ALTER TABLE `REGISTRA` DISABLE KEYS */;
+/*!40000 ALTER TABLE `REGISTRA` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `SINODAL`
+--
+
+DROP TABLE IF EXISTS `SINODAL`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `SINODAL` (
+  `ID_SINODAL` int NOT NULL AUTO_INCREMENT,
+  `NOMBRE` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `CENTRO_ESTUDIOS` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `PROGRAMA_ESTUDIOS` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `EXTERNO` tinyint(1) DEFAULT NULL,
+  `ID_PRODUCTO` int DEFAULT NULL,
+  PRIMARY KEY (`ID_SINODAL`),
+  KEY `ID_PRODUCTO` (`ID_PRODUCTO`),
+  CONSTRAINT `sinodal_ibfk_1` FOREIGN KEY (`ID_PRODUCTO`) REFERENCES `TRABAJO_RECEPCIONAL` (`ID_PRODUCTO`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `SINODAL`
+--
+
+LOCK TABLES `SINODAL` WRITE;
+/*!40000 ALTER TABLE `SINODAL` DISABLE KEYS */;
+INSERT INTO `SINODAL` VALUES (1,'Luis Gerardo Montané Jiménez','Universidad Veracruzana','Sistemas Interactivos Centrados en el Usuario',0,5),(2,'Viviana Yarel Rosales Morales','Universidad Veracruzana','Sistemas Interactivos Centrados en el Usuario',0,5),(3,'osé Antonio Xohua Chacón','Universidad Veracruzana','Tecnlogias Computacionales',1,5),(4,'Ismael Everardo Bárcenas Patiño','Universidad Veracruzana','Tecnlogias Computacionales',1,8),(5,'Lorena Alonso Ramírez','Universidad Veracruzana','Sistemas Interactivos Centrados en el Usuario',0,8),(6,'Carlos Alberto Ochoa Rivera','Universidad Veracruzana','Sistemas Interactivos Centrados en el Usuario',0,8),(7,'María del Carmen Mezura Godoy,','Universidad Veracruzana','Sistemas Interactivos Centrados en el Usuario',0,9),(8,'José Rafel Rojano Cáceres','Universidad Veracruzana','Sistemas Interactivos Centrados en el Usuario',0,9),(9,'Guillermo Gilberto Molero Castillo','Universidad Veracruzana','Fisica',1,9);
+/*!40000 ALTER TABLE `SINODAL` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `TRABAJO_RECEPCIONAL`
+--
+
+DROP TABLE IF EXISTS `TRABAJO_RECEPCIONAL`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `TRABAJO_RECEPCIONAL` (
+  `ID_PRODUCTO` int NOT NULL,
+  `REPOSITORIO` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ESTADO` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ACTA` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `LUGAR` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `RESULTADO` double DEFAULT NULL,
+  PRIMARY KEY (`ID_PRODUCTO`),
+  CONSTRAINT `trabajo_recepcional_ibfk_1` FOREIGN KEY (`ID_PRODUCTO`) REFERENCES `PRODUCTO_ACADEMICO` (`ID_PRODUCTO`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `TRABAJO_RECEPCIONAL`
+--
+
+LOCK TABLES `TRABAJO_RECEPCIONAL` WRITE;
+/*!40000 ALTER TABLE `TRABAJO_RECEPCIONAL` DISABLE KEYS */;
+INSERT INTO `TRABAJO_RECEPCIONAL` VALUES (5,NULL,'FINALIZADO',NULL,'Universidad Veracruzana',NULL),(8,NULL,'FINALIZADO',NULL,'Universidad Veracruzana',NULL),(9,NULL,'FINALIZADO',NULL,'Universidad Veracruzana',NULL);
+/*!40000 ALTER TABLE `TRABAJO_RECEPCIONAL` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Usuario`
+--
+
+DROP TABLE IF EXISTS `Usuario`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Usuario` (
+  `ID` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `username` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Usuario`
+--
+
+LOCK TABLES `Usuario` WRITE;
+/*!40000 ALTER TABLE `Usuario` DISABLE KEYS */;
+INSERT INTO `Usuario` VALUES ('d29ae4c6-fdfe-4c68-aa01-be5c4c215692','villa','$2b$10$L7yqA6hh2F8GtYv33UL1Y.0hKlSS2dWjXF5ij2sGCwk5.nPBK3ox2');
+/*!40000 ALTER TABLE `Usuario` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `_prisma_migrations`
+--
+
+DROP TABLE IF EXISTS `_prisma_migrations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `_prisma_migrations` (
+  `id` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `checksum` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `finished_at` datetime(3) DEFAULT NULL,
+  `migration_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `logs` text COLLATE utf8mb4_unicode_ci,
+  `rolled_back_at` datetime(3) DEFAULT NULL,
+  `started_at` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `applied_steps_count` int unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `_prisma_migrations`
+--
+
+LOCK TABLES `_prisma_migrations` WRITE;
+/*!40000 ALTER TABLE `_prisma_migrations` DISABLE KEYS */;
+INSERT INTO `_prisma_migrations` VALUES ('0d4d72cf-c1dc-49d4-b878-7224ebbd6964','d0e2c7efa525391ff1c6a32ae5d984c1389cf0966bde0c9d05027c3cec3d2da5','2023-02-05 19:02:24.314','20230205190224_access_tables',NULL,NULL,'2023-02-05 19:02:24.228',1),('bf7b8b89-0127-4075-8060-58da7ffbb088','a41256ddf387f427ee570968bab020d35d601e5f89b973acf7ca8e9e1afb44a9','2023-02-05 17:25:57.577','20230205172552_colabora_id',NULL,NULL,'2023-02-05 17:25:52.232',1),('f78565b8-cbd7-4f2f-ad7b-6f266a5b4a87','b6e872a2472c3ddd05419c99557574cf63ec317fdc972e619cb73c0cd62b92c6','2023-02-05 18:08:55.419','20230205180846_bigint_to_int',NULL,NULL,'2023-02-05 18:08:46.844',1);
+/*!40000 ALTER TABLE `_prisma_migrations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Temporary view structure for view `academico_nab`
+--
+
+DROP TABLE IF EXISTS `academico_nab`;
+/*!50001 DROP VIEW IF EXISTS `academico_nab`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `academico_nab` AS SELECT 
+ 1 AS `ID_PERSONA`,
+ 1 AS `NOMBRE`,
+ 1 AS `TIPO`,
+ 1 AS `CVU`,
+ 1 AS `FECHA_INGRESO`,
+ 1 AS `NAB`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `colaborador`
+--
+
+DROP TABLE IF EXISTS `colaborador`;
+/*!50001 DROP VIEW IF EXISTS `colaborador`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `colaborador` AS SELECT 
+ 1 AS `ID_PERSONA`,
+ 1 AS `NOMBRE`,
+ 1 AS `TIPO`,
+ 1 AS `ESTADO`,
+ 1 AS `ROL`,
+ 1 AS `ID_PRODUCTO`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `estudiante_generacion`
+--
+
+DROP TABLE IF EXISTS `estudiante_generacion`;
+/*!50001 DROP VIEW IF EXISTS `estudiante_generacion`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `estudiante_generacion` AS SELECT 
+ 1 AS `ID_PERSONA`,
+ 1 AS `NOMBRE`,
+ 1 AS `TIPO`,
+ 1 AS `GENERACION`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `producto_academico_articulo`
+--
+
+DROP TABLE IF EXISTS `producto_academico_articulo`;
+/*!50001 DROP VIEW IF EXISTS `producto_academico_articulo`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `producto_academico_articulo` AS SELECT 
+ 1 AS `ID_PRODUCTO`,
+ 1 AS `TITULO`,
+ 1 AS `FECHA`,
+ 1 AS `DESCRIPCION`,
+ 1 AS `ARCHIVO_EVIDENCIA`,
+ 1 AS `ID_LGAC`,
+ 1 AS `ID_ESTANCIA`,
+ 1 AS `REVISTA`,
+ 1 AS `PAGINAS`,
+ 1 AS `EDITORIAL`,
+ 1 AS `INDIZACION`,
+ 1 AS `DOI`,
+ 1 AS `VOLUMEN`,
+ 1 AS `ISSN`,
+ 1 AS `TIPO`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `producto_academico_capitulo_libro`
+--
+
+DROP TABLE IF EXISTS `producto_academico_capitulo_libro`;
+/*!50001 DROP VIEW IF EXISTS `producto_academico_capitulo_libro`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `producto_academico_capitulo_libro` AS SELECT 
+ 1 AS `ID_PRODUCTO`,
+ 1 AS `TITULO`,
+ 1 AS `FECHA`,
+ 1 AS `DESCRIPCION`,
+ 1 AS `ARCHIVO_EVIDENCIA`,
+ 1 AS `ID_LGAC`,
+ 1 AS `ID_ESTANCIA`,
+ 1 AS `TITULO_LIBRO`,
+ 1 AS `ISBN`,
+ 1 AS `PAGINAS`,
+ 1 AS `EDITORIAL`,
+ 1 AS `VOLUMEN`,
+ 1 AS `TIPO`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `producto_academico_libro`
+--
+
+DROP TABLE IF EXISTS `producto_academico_libro`;
+/*!50001 DROP VIEW IF EXISTS `producto_academico_libro`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `producto_academico_libro` AS SELECT 
+ 1 AS `ID_PRODUCTO`,
+ 1 AS `TITULO`,
+ 1 AS `FECHA`,
+ 1 AS `DESCRIPCION`,
+ 1 AS `ARCHIVO_EVIDENCIA`,
+ 1 AS `ID_LGAC`,
+ 1 AS `ID_ESTANCIA`,
+ 1 AS `ISBN`,
+ 1 AS `PAGINAS`,
+ 1 AS `EDITORIAL`,
+ 1 AS `INDIZACION`,
+ 1 AS `VOLUMEN`,
+ 1 AS `TIPO`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `producto_academico_memoria_congreso`
+--
+
+DROP TABLE IF EXISTS `producto_academico_memoria_congreso`;
+/*!50001 DROP VIEW IF EXISTS `producto_academico_memoria_congreso`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `producto_academico_memoria_congreso` AS SELECT 
+ 1 AS `ID_PRODUCTO`,
+ 1 AS `TITULO`,
+ 1 AS `FECHA`,
+ 1 AS `DESCRIPCION`,
+ 1 AS `ARCHIVO_EVIDENCIA`,
+ 1 AS `ID_LGAC`,
+ 1 AS `ID_ESTANCIA`,
+ 1 AS `FECHA_CONGRESO`,
+ 1 AS `PAGINAS`,
+ 1 AS `ISBN`,
+ 1 AS `NOMBRE_CONGRESO`,
+ 1 AS `CIUDAD`,
+ 1 AS `ESTADO`,
+ 1 AS `PAIS`,
+ 1 AS `TIPO`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `producto_academico_prototipo`
+--
+
+DROP TABLE IF EXISTS `producto_academico_prototipo`;
+/*!50001 DROP VIEW IF EXISTS `producto_academico_prototipo`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `producto_academico_prototipo` AS SELECT 
+ 1 AS `ID_PRODUCTO`,
+ 1 AS `TITULO`,
+ 1 AS `FECHA`,
+ 1 AS `DESCRIPCION`,
+ 1 AS `ARCHIVO_EVIDENCIA`,
+ 1 AS `ID_LGAC`,
+ 1 AS `ID_ESTANCIA`,
+ 1 AS `TIPO`,
+ 1 AS `REGISTRO_INDAUTOR`,
+ 1 AS `CIUDAD`,
+ 1 AS `ESTADO`,
+ 1 AS `PAIS`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `producto_academico_trabajo_recepcional`
+--
+
+DROP TABLE IF EXISTS `producto_academico_trabajo_recepcional`;
+/*!50001 DROP VIEW IF EXISTS `producto_academico_trabajo_recepcional`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `producto_academico_trabajo_recepcional` AS SELECT 
+ 1 AS `ID_PRODUCTO`,
+ 1 AS `TITULO`,
+ 1 AS `FECHA`,
+ 1 AS `DESCRIPCION`,
+ 1 AS `ARCHIVO_EVIDENCIA`,
+ 1 AS `ID_LGAC`,
+ 1 AS `ID_ESTANCIA`,
+ 1 AS `REPOSITORIO`,
+ 1 AS `ESTADO`,
+ 1 AS `ACTA`,
+ 1 AS `LUGAR`,
+ 1 AS `RESULTADO`,
+ 1 AS `TIPO`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `reporte_articulo`
+--
+
+DROP TABLE IF EXISTS `reporte_articulo`;
+/*!50001 DROP VIEW IF EXISTS `reporte_articulo`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `reporte_articulo` AS SELECT 
+ 1 AS `ID_PRODUCTO`,
+ 1 AS `TIPO`,
+ 1 AS `PRODUCTO`,
+ 1 AS `ARCHIVO_EVIDENCIA`,
+ 1 AS `ID_LGAC`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `reporte_capitulo_libro`
+--
+
+DROP TABLE IF EXISTS `reporte_capitulo_libro`;
+/*!50001 DROP VIEW IF EXISTS `reporte_capitulo_libro`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `reporte_capitulo_libro` AS SELECT 
+ 1 AS `ID_PRODUCTO`,
+ 1 AS `TIPO`,
+ 1 AS `PRODUCTO`,
+ 1 AS `ARCHIVO_EVIDENCIA`,
+ 1 AS `ID_LGAC`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `reporte_libro`
+--
+
+DROP TABLE IF EXISTS `reporte_libro`;
+/*!50001 DROP VIEW IF EXISTS `reporte_libro`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `reporte_libro` AS SELECT 
+ 1 AS `ID_PRODUCTO`,
+ 1 AS `TIPO`,
+ 1 AS `PRODUCTO`,
+ 1 AS `ARCHIVO_EVIDENCIA`,
+ 1 AS `ID_LGAC`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `reporte_memoria_congreso`
+--
+
+DROP TABLE IF EXISTS `reporte_memoria_congreso`;
+/*!50001 DROP VIEW IF EXISTS `reporte_memoria_congreso`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `reporte_memoria_congreso` AS SELECT 
+ 1 AS `ID_PRODUCTO`,
+ 1 AS `TIPO`,
+ 1 AS `PRODUCTO`,
+ 1 AS `ARCHIVO_EVIDENCIA`,
+ 1 AS `ID_LGAC`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `reporte_productos_academicos_lgac`
+--
+
+DROP TABLE IF EXISTS `reporte_productos_academicos_lgac`;
+/*!50001 DROP VIEW IF EXISTS `reporte_productos_academicos_lgac`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `reporte_productos_academicos_lgac` AS SELECT 
+ 1 AS `ID_PRODUCTO`,
+ 1 AS `TIPO`,
+ 1 AS `PRODUCTO`,
+ 1 AS `ARCHIVO_EVIDENCIA`,
+ 1 AS `ID_LGAC`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `reporte_prototipo`
+--
+
+DROP TABLE IF EXISTS `reporte_prototipo`;
+/*!50001 DROP VIEW IF EXISTS `reporte_prototipo`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `reporte_prototipo` AS SELECT 
+ 1 AS `ID_PRODUCTO`,
+ 1 AS `TIPO`,
+ 1 AS `PRODUCTO`,
+ 1 AS `ARCHIVO_EVIDENCIA`,
+ 1 AS `ID_LGAC`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `reporte_trabajo_recepcional`
+--
+
+DROP TABLE IF EXISTS `reporte_trabajo_recepcional`;
+/*!50001 DROP VIEW IF EXISTS `reporte_trabajo_recepcional`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `reporte_trabajo_recepcional` AS SELECT 
+ 1 AS `ID_PRODUCTO`,
+ 1 AS `TIPO`,
+ 1 AS `PRODUCTO`,
+ 1 AS `ARCHIVO_EVIDENCIA`,
+ 1 AS `ID_LGAC`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `repositorio_institucional`
+--
+
+DROP TABLE IF EXISTS `repositorio_institucional`;
+/*!50001 DROP VIEW IF EXISTS `repositorio_institucional`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `repositorio_institucional` AS SELECT 
+ 1 AS `ID_PRODUCTO`,
+ 1 AS `TITULO`,
+ 1 AS `DESCRIPCION`,
+ 1 AS `REPOSITORIO`,
+ 1 AS `ARCHIVO_EVIDENCIA`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `token`
+--
+
+DROP TABLE IF EXISTS `token`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `token` (
+  `id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `isActive` tinyint(1) NOT NULL DEFAULT '0',
+  UNIQUE KEY `token_id_key` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `token`
+--
+
+LOCK TABLES `token` WRITE;
+/*!40000 ALTER TABLE `token` DISABLE KEYS */;
+INSERT INTO `token` VALUES ('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkMjlhZTRjNi1mZGZlLTRjNjgtYWEwMS1iZTVjNGMyMTU2OTIiLCJpYXQiOjE2NzU2Mzc2MzEsIm5hbWUiOiJ2aWxsYSJ9.HrTtCzb6o4ZkNLq2tRI9w0I2y3bpHp3VhHdxDyH9g8M',1),('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkMjlhZTRjNi1mZGZlLTRjNjgtYWEwMS1iZTVjNGMyMTU2OTIiLCJpYXQiOjE2NzU2Mzc2MzksIm5hbWUiOiJ2aWxsYSJ9.wJK9qm80kLVBvzd8DAXK04h_-yAwCnZ6P-AHSkhzjS4',1),('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkMjlhZTRjNi1mZGZlLTRjNjgtYWEwMS1iZTVjNGMyMTU2OTIiLCJpYXQiOjE2NzU2MzQ1MjUsIm5hbWUiOiJ2aWxsYSJ9.XdYjXj_RDem09z2iLT09oQLMn0Ls03HaBtpJ1-mnpHI',1),('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkMjlhZTRjNi1mZGZlLTRjNjgtYWEwMS1iZTVjNGMyMTU2OTIiLCJpYXQiOjE2NzU2MzQ1ODYsIm5hbWUiOiJ2aWxsYSJ9.d-iGnl7ZcUTGpWZUPQLI2mXOC9SqCfKt5PrWjKQY1zs',1),('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkMjlhZTRjNi1mZGZlLTRjNjgtYWEwMS1iZTVjNGMyMTU2OTIiLCJpYXQiOjE2NzU2MzQxMTcsIm5hbWUiOiJ2aWxsYSJ9.EtmssU7FT8fexKo2mB30ZUEtQmumokm561WxTfQTTXU',1),('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkMjlhZTRjNi1mZGZlLTRjNjgtYWEwMS1iZTVjNGMyMTU2OTIiLCJpYXQiOjE2NzU2MzQxMzMsIm5hbWUiOiJ2aWxsYSJ9.tscuPn0HjSqcsNx8FIDv9wQGZGNXDqmcDhhjatOd5L0',1),('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkMjlhZTRjNi1mZGZlLTRjNjgtYWEwMS1iZTVjNGMyMTU2OTIiLCJpYXQiOjE2NzU2MzQxNDYsIm5hbWUiOiJ2aWxsYSJ9.krT7NErG_ep_5Qd6X9BGLai1pss0OWHpFphsocwABQI',1),('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkMjlhZTRjNi1mZGZlLTRjNjgtYWEwMS1iZTVjNGMyMTU2OTIiLCJpYXQiOjE2NzU2MzQzNTMsIm5hbWUiOiJ2aWxsYSJ9.rk6PtCSOqc12XspxwyvpG5ld26Gb9CabJvMPE6NpXnU',1),('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkMjlhZTRjNi1mZGZlLTRjNjgtYWEwMS1iZTVjNGMyMTU2OTIiLCJpYXQiOjE2NzU2MzU1NDYsIm5hbWUiOiJ2aWxsYSJ9.X1_-0wEFLJ9wOuqKWahZFhYRWkwvixxDIvcxUWYYsPU',1),('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkMjlhZTRjNi1mZGZlLTRjNjgtYWEwMS1iZTVjNGMyMTU2OTIiLCJpYXQiOjE2NzU2MzU4ODcsIm5hbWUiOiJ2aWxsYSJ9.UgsXaFyMT-eaAK_cI1zT4kRAAmNMEIyDlL5yYxe9CFk',1),('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkMjlhZTRjNi1mZGZlLTRjNjgtYWEwMS1iZTVjNGMyMTU2OTIiLCJpYXQiOjE2NzU3MTk5MDAsIm5hbWUiOiJ2aWxsYSJ9.hgSqE_xGkAJBTAwMDvjkNLuDH51r8p0krhurU1RMDmg',1);
+/*!40000 ALTER TABLE `token` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'pnpc'
+--
+
+--
+-- Final view structure for view `academico_nab`
+--
+
+/*!50001 DROP VIEW IF EXISTS `academico_nab`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`villa`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `academico_nab` AS select `P`.`ID_PERSONA` AS `ID_PERSONA`,concat(`P`.`NOMBRE`,' ',`P`.`APELLIDO_PATERNO`,' ',`P`.`APELLIDO_MATERNO`) AS `NOMBRE`,`P`.`TIPO` AS `TIPO`,`P`.`CVU` AS `CVU`,`PERTENECE`.`FECHA_INGRESO` AS `FECHA_INGRESO`,`PERTENECE`.`NAB` AS `NAB` from (`PERSONA` `P` join `PERTENECE` on((`P`.`ID_PERSONA` = `PERTENECE`.`ID_PERSONA`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `colaborador`
+--
+
+/*!50001 DROP VIEW IF EXISTS `colaborador`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`villa`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `colaborador` AS select `P`.`ID_PERSONA` AS `ID_PERSONA`,concat(`P`.`NOMBRE`,' ',`P`.`APELLIDO_PATERNO`,' ',`P`.`APELLIDO_MATERNO`) AS `NOMBRE`,`P`.`TIPO` AS `TIPO`,`P`.`ESTADO` AS `ESTADO`,`COLABORA`.`ROL` AS `ROL`,`COLABORA`.`ID_PRODUCTO` AS `ID_PRODUCTO` from (`PERSONA` `P` join `COLABORA` on((`P`.`ID_PERSONA` = `COLABORA`.`ID_PERSONA`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `estudiante_generacion`
+--
+
+/*!50001 DROP VIEW IF EXISTS `estudiante_generacion`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`villa`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `estudiante_generacion` AS select `P`.`ID_PERSONA` AS `ID_PERSONA`,concat(`P`.`NOMBRE`,' ',`P`.`APELLIDO_PATERNO`,' ',`P`.`APELLIDO_MATERNO`) AS `NOMBRE`,`P`.`TIPO` AS `TIPO`,concat_ws(' - ',year(`GENERACION`.`FECHA_INICIO`),year(`GENERACION`.`FECHA_FINAL`)) AS `GENERACION` from (`PERSONA` `P` join `GENERACION` on((`P`.`ID_GENERACION` = `GENERACION`.`ID_GENERACION`))) where ((`P`.`TIPO` = 'ESTUDIANTE') or (`P`.`TIPO` = 'EGRESADO')) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `producto_academico_articulo`
+--
+
+/*!50001 DROP VIEW IF EXISTS `producto_academico_articulo`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`villa`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `producto_academico_articulo` AS select `PRODUCTO_ACADEMICO`.`ID_PRODUCTO` AS `ID_PRODUCTO`,`PRODUCTO_ACADEMICO`.`TITULO` AS `TITULO`,`PRODUCTO_ACADEMICO`.`FECHA` AS `FECHA`,`PRODUCTO_ACADEMICO`.`DESCRIPCION` AS `DESCRIPCION`,`PRODUCTO_ACADEMICO`.`ARCHIVO_EVIDENCIA` AS `ARCHIVO_EVIDENCIA`,`PRODUCTO_ACADEMICO`.`ID_LGAC` AS `ID_LGAC`,`PRODUCTO_ACADEMICO`.`ID_ESTANCIA` AS `ID_ESTANCIA`,`ARTICULO`.`REVISTA` AS `REVISTA`,`ARTICULO`.`PAGINAS` AS `PAGINAS`,`ARTICULO`.`EDITORIAL` AS `EDITORIAL`,`ARTICULO`.`INDIZACION` AS `INDIZACION`,`ARTICULO`.`DOI` AS `DOI`,`ARTICULO`.`VOLUMEN` AS `VOLUMEN`,`ARTICULO`.`ISSN` AS `ISSN`,'ARTICULO' AS `TIPO` from (`PRODUCTO_ACADEMICO` join `ARTICULO` on((`PRODUCTO_ACADEMICO`.`ID_PRODUCTO` = `ARTICULO`.`ID_PRODUCTO`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `producto_academico_capitulo_libro`
+--
+
+/*!50001 DROP VIEW IF EXISTS `producto_academico_capitulo_libro`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`villa`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `producto_academico_capitulo_libro` AS select `PRODUCTO_ACADEMICO`.`ID_PRODUCTO` AS `ID_PRODUCTO`,`PRODUCTO_ACADEMICO`.`TITULO` AS `TITULO`,`PRODUCTO_ACADEMICO`.`FECHA` AS `FECHA`,`PRODUCTO_ACADEMICO`.`DESCRIPCION` AS `DESCRIPCION`,`PRODUCTO_ACADEMICO`.`ARCHIVO_EVIDENCIA` AS `ARCHIVO_EVIDENCIA`,`PRODUCTO_ACADEMICO`.`ID_LGAC` AS `ID_LGAC`,`PRODUCTO_ACADEMICO`.`ID_ESTANCIA` AS `ID_ESTANCIA`,`CAPITULO_LIBRO`.`TITULO_LIBRO` AS `TITULO_LIBRO`,`CAPITULO_LIBRO`.`ISBN` AS `ISBN`,`CAPITULO_LIBRO`.`PAGINAS` AS `PAGINAS`,`CAPITULO_LIBRO`.`EDITORIAL` AS `EDITORIAL`,`CAPITULO_LIBRO`.`VOLUMEN` AS `VOLUMEN`,'CAPITULO_LIBRO' AS `TIPO` from (`PRODUCTO_ACADEMICO` join `CAPITULO_LIBRO` on((`PRODUCTO_ACADEMICO`.`ID_PRODUCTO` = `CAPITULO_LIBRO`.`ID_PRODUCTO`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `producto_academico_libro`
+--
+
+/*!50001 DROP VIEW IF EXISTS `producto_academico_libro`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`villa`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `producto_academico_libro` AS select `PRODUCTO_ACADEMICO`.`ID_PRODUCTO` AS `ID_PRODUCTO`,`PRODUCTO_ACADEMICO`.`TITULO` AS `TITULO`,`PRODUCTO_ACADEMICO`.`FECHA` AS `FECHA`,`PRODUCTO_ACADEMICO`.`DESCRIPCION` AS `DESCRIPCION`,`PRODUCTO_ACADEMICO`.`ARCHIVO_EVIDENCIA` AS `ARCHIVO_EVIDENCIA`,`PRODUCTO_ACADEMICO`.`ID_LGAC` AS `ID_LGAC`,`PRODUCTO_ACADEMICO`.`ID_ESTANCIA` AS `ID_ESTANCIA`,`LIBRO`.`ISBN` AS `ISBN`,`LIBRO`.`PAGINAS` AS `PAGINAS`,`LIBRO`.`EDITORIAL` AS `EDITORIAL`,`LIBRO`.`INDIZACION` AS `INDIZACION`,`LIBRO`.`VOLUMEN` AS `VOLUMEN`,'LIBRO' AS `TIPO` from (`PRODUCTO_ACADEMICO` join `LIBRO` on((`PRODUCTO_ACADEMICO`.`ID_PRODUCTO` = `LIBRO`.`ID_PRODUCTO`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `producto_academico_memoria_congreso`
+--
+
+/*!50001 DROP VIEW IF EXISTS `producto_academico_memoria_congreso`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`villa`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `producto_academico_memoria_congreso` AS select `PRODUCTO_ACADEMICO`.`ID_PRODUCTO` AS `ID_PRODUCTO`,`PRODUCTO_ACADEMICO`.`TITULO` AS `TITULO`,`PRODUCTO_ACADEMICO`.`FECHA` AS `FECHA`,`PRODUCTO_ACADEMICO`.`DESCRIPCION` AS `DESCRIPCION`,`PRODUCTO_ACADEMICO`.`ARCHIVO_EVIDENCIA` AS `ARCHIVO_EVIDENCIA`,`PRODUCTO_ACADEMICO`.`ID_LGAC` AS `ID_LGAC`,`PRODUCTO_ACADEMICO`.`ID_ESTANCIA` AS `ID_ESTANCIA`,`MEMORIA_CONGRESO`.`FECHA` AS `FECHA_CONGRESO`,`MEMORIA_CONGRESO`.`PAGINAS` AS `PAGINAS`,`MEMORIA_CONGRESO`.`ISBN` AS `ISBN`,`MEMORIA_CONGRESO`.`NOMBRE_CONGRESO` AS `NOMBRE_CONGRESO`,`MEMORIA_CONGRESO`.`CIUDAD` AS `CIUDAD`,`MEMORIA_CONGRESO`.`ESTADO` AS `ESTADO`,`MEMORIA_CONGRESO`.`PAIS` AS `PAIS`,'MEMORIA_CONGRESO' AS `TIPO` from (`PRODUCTO_ACADEMICO` join `MEMORIA_CONGRESO` on((`PRODUCTO_ACADEMICO`.`ID_PRODUCTO` = `MEMORIA_CONGRESO`.`ID_PRODUCTO`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `producto_academico_prototipo`
+--
+
+/*!50001 DROP VIEW IF EXISTS `producto_academico_prototipo`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`villa`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `producto_academico_prototipo` AS select `PRODUCTO_ACADEMICO`.`ID_PRODUCTO` AS `ID_PRODUCTO`,`PRODUCTO_ACADEMICO`.`TITULO` AS `TITULO`,`PRODUCTO_ACADEMICO`.`FECHA` AS `FECHA`,`PRODUCTO_ACADEMICO`.`DESCRIPCION` AS `DESCRIPCION`,`PRODUCTO_ACADEMICO`.`ARCHIVO_EVIDENCIA` AS `ARCHIVO_EVIDENCIA`,`PRODUCTO_ACADEMICO`.`ID_LGAC` AS `ID_LGAC`,`PRODUCTO_ACADEMICO`.`ID_ESTANCIA` AS `ID_ESTANCIA`,`PROTOTIPO`.`TIPO` AS `TIPO`,`PROTOTIPO`.`REGISTRO_INDAUTOR` AS `REGISTRO_INDAUTOR`,`PROTOTIPO`.`CIUDAD` AS `CIUDAD`,`PROTOTIPO`.`ESTADO` AS `ESTADO`,`PROTOTIPO`.`PAIS` AS `PAIS` from (`PRODUCTO_ACADEMICO` join `PROTOTIPO` on((`PRODUCTO_ACADEMICO`.`ID_PRODUCTO` = `PROTOTIPO`.`ID_PRODUCTO`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `producto_academico_trabajo_recepcional`
+--
+
+/*!50001 DROP VIEW IF EXISTS `producto_academico_trabajo_recepcional`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`villa`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `producto_academico_trabajo_recepcional` AS select `PRODUCTO_ACADEMICO`.`ID_PRODUCTO` AS `ID_PRODUCTO`,`PRODUCTO_ACADEMICO`.`TITULO` AS `TITULO`,`PRODUCTO_ACADEMICO`.`FECHA` AS `FECHA`,`PRODUCTO_ACADEMICO`.`DESCRIPCION` AS `DESCRIPCION`,`PRODUCTO_ACADEMICO`.`ARCHIVO_EVIDENCIA` AS `ARCHIVO_EVIDENCIA`,`PRODUCTO_ACADEMICO`.`ID_LGAC` AS `ID_LGAC`,`PRODUCTO_ACADEMICO`.`ID_ESTANCIA` AS `ID_ESTANCIA`,`TRABAJO_RECEPCIONAL`.`REPOSITORIO` AS `REPOSITORIO`,`TRABAJO_RECEPCIONAL`.`ESTADO` AS `ESTADO`,`TRABAJO_RECEPCIONAL`.`ACTA` AS `ACTA`,`TRABAJO_RECEPCIONAL`.`LUGAR` AS `LUGAR`,`TRABAJO_RECEPCIONAL`.`RESULTADO` AS `RESULTADO`,'TRABAJO_RECEPCIONAL' AS `TIPO` from (`PRODUCTO_ACADEMICO` join `TRABAJO_RECEPCIONAL` on((`PRODUCTO_ACADEMICO`.`ID_PRODUCTO` = `TRABAJO_RECEPCIONAL`.`ID_PRODUCTO`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `reporte_articulo`
+--
+
+/*!50001 DROP VIEW IF EXISTS `reporte_articulo`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`villa`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `reporte_articulo` AS select `producto_academico_articulo`.`ID_PRODUCTO` AS `ID_PRODUCTO`,`producto_academico_articulo`.`TIPO` AS `TIPO`,concat_ws(' ',year(`producto_academico_articulo`.`FECHA`),(select group_concat(`colaborador`.`NOMBRE` separator ', ') from `colaborador` where (`colaborador`.`ID_PRODUCTO` = `producto_academico_articulo`.`ID_PRODUCTO`)),'. ',`producto_academico_articulo`.`TITULO`,`producto_academico_articulo`.`REVISTA`,`producto_academico_articulo`.`EDITORIAL`,' ISSN: ',`producto_academico_articulo`.`ISSN`,'. Indizada en ',`producto_academico_articulo`.`INDIZACION`) AS `PRODUCTO`,`producto_academico_articulo`.`ARCHIVO_EVIDENCIA` AS `ARCHIVO_EVIDENCIA`,`producto_academico_articulo`.`ID_LGAC` AS `ID_LGAC` from `producto_academico_articulo` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `reporte_capitulo_libro`
+--
+
+/*!50001 DROP VIEW IF EXISTS `reporte_capitulo_libro`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`villa`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `reporte_capitulo_libro` AS select `producto_academico_capitulo_libro`.`ID_PRODUCTO` AS `ID_PRODUCTO`,`producto_academico_capitulo_libro`.`TIPO` AS `TIPO`,concat_ws(' ',year(`producto_academico_capitulo_libro`.`FECHA`),(select group_concat(`colaborador`.`NOMBRE` separator ', ') from `colaborador` where (`colaborador`.`ID_PRODUCTO` = `producto_academico_capitulo_libro`.`ID_PRODUCTO`)),'.',`producto_academico_capitulo_libro`.`TITULO`,`producto_academico_capitulo_libro`.`DESCRIPCION`,`producto_academico_capitulo_libro`.`EDITORIAL`,' ISBN: ',`producto_academico_capitulo_libro`.`ISBN`) AS `PRODUCTO`,`producto_academico_capitulo_libro`.`ARCHIVO_EVIDENCIA` AS `ARCHIVO_EVIDENCIA`,`producto_academico_capitulo_libro`.`ID_LGAC` AS `ID_LGAC` from `producto_academico_capitulo_libro` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `reporte_libro`
+--
+
+/*!50001 DROP VIEW IF EXISTS `reporte_libro`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`villa`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `reporte_libro` AS select `producto_academico_libro`.`ID_PRODUCTO` AS `ID_PRODUCTO`,`producto_academico_libro`.`TIPO` AS `TIPO`,concat_ws(' ',year(`producto_academico_libro`.`FECHA`),(select group_concat(`colaborador`.`NOMBRE` separator ', ') from `colaborador` where (`colaborador`.`ID_PRODUCTO` = `producto_academico_libro`.`ID_PRODUCTO`)),'.',`producto_academico_libro`.`TITULO`,`producto_academico_libro`.`DESCRIPCION`,`producto_academico_libro`.`EDITORIAL`,' ISBN: ',`producto_academico_libro`.`ISBN`) AS `PRODUCTO`,`producto_academico_libro`.`ARCHIVO_EVIDENCIA` AS `ARCHIVO_EVIDENCIA`,`producto_academico_libro`.`ID_LGAC` AS `ID_LGAC` from `producto_academico_libro` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `reporte_memoria_congreso`
+--
+
+/*!50001 DROP VIEW IF EXISTS `reporte_memoria_congreso`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`villa`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `reporte_memoria_congreso` AS select `producto_academico_memoria_congreso`.`ID_PRODUCTO` AS `ID_PRODUCTO`,`producto_academico_memoria_congreso`.`TIPO` AS `TIPO`,concat_ws(' ',year(`producto_academico_memoria_congreso`.`FECHA`),(select group_concat(`colaborador`.`NOMBRE` separator ', ') from `colaborador` where (`colaborador`.`ID_PRODUCTO` = `producto_academico_memoria_congreso`.`ID_PRODUCTO`)),'.',`producto_academico_memoria_congreso`.`TITULO`,`producto_academico_memoria_congreso`.`DESCRIPCION`,'.',concat_ws(',',`producto_academico_memoria_congreso`.`CIUDAD`,`producto_academico_memoria_congreso`.`PAIS`),'.') AS `PRODUCTO`,`producto_academico_memoria_congreso`.`ARCHIVO_EVIDENCIA` AS `ARCHIVO_EVIDENCIA`,`producto_academico_memoria_congreso`.`ID_LGAC` AS `ID_LGAC` from `producto_academico_memoria_congreso` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `reporte_productos_academicos_lgac`
+--
+
+/*!50001 DROP VIEW IF EXISTS `reporte_productos_academicos_lgac`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`villa`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `reporte_productos_academicos_lgac` AS select `reporte_trabajo_recepcional`.`ID_PRODUCTO` AS `ID_PRODUCTO`,`reporte_trabajo_recepcional`.`TIPO` AS `TIPO`,`reporte_trabajo_recepcional`.`PRODUCTO` AS `PRODUCTO`,`reporte_trabajo_recepcional`.`ARCHIVO_EVIDENCIA` AS `ARCHIVO_EVIDENCIA`,`reporte_trabajo_recepcional`.`ID_LGAC` AS `ID_LGAC` from `reporte_trabajo_recepcional` union select `reporte_articulo`.`ID_PRODUCTO` AS `ID_PRODUCTO`,`reporte_articulo`.`TIPO` AS `TIPO`,`reporte_articulo`.`PRODUCTO` AS `PRODUCTO`,`reporte_articulo`.`ARCHIVO_EVIDENCIA` AS `ARCHIVO_EVIDENCIA`,`reporte_articulo`.`ID_LGAC` AS `ID_LGAC` from `reporte_articulo` union select `reporte_memoria_congreso`.`ID_PRODUCTO` AS `ID_PRODUCTO`,`reporte_memoria_congreso`.`TIPO` AS `TIPO`,`reporte_memoria_congreso`.`PRODUCTO` AS `PRODUCTO`,`reporte_memoria_congreso`.`ARCHIVO_EVIDENCIA` AS `ARCHIVO_EVIDENCIA`,`reporte_memoria_congreso`.`ID_LGAC` AS `ID_LGAC` from `reporte_memoria_congreso` union select `reporte_capitulo_libro`.`ID_PRODUCTO` AS `ID_PRODUCTO`,`reporte_capitulo_libro`.`TIPO` AS `TIPO`,`reporte_capitulo_libro`.`PRODUCTO` AS `PRODUCTO`,`reporte_capitulo_libro`.`ARCHIVO_EVIDENCIA` AS `ARCHIVO_EVIDENCIA`,`reporte_capitulo_libro`.`ID_LGAC` AS `ID_LGAC` from `reporte_capitulo_libro` union select `reporte_libro`.`ID_PRODUCTO` AS `ID_PRODUCTO`,`reporte_libro`.`TIPO` AS `TIPO`,`reporte_libro`.`PRODUCTO` AS `PRODUCTO`,`reporte_libro`.`ARCHIVO_EVIDENCIA` AS `ARCHIVO_EVIDENCIA`,`reporte_libro`.`ID_LGAC` AS `ID_LGAC` from `reporte_libro` union select `reporte_prototipo`.`ID_PRODUCTO` AS `ID_PRODUCTO`,`reporte_prototipo`.`TIPO` AS `TIPO`,`reporte_prototipo`.`PRODUCTO` AS `PRODUCTO`,`reporte_prototipo`.`ARCHIVO_EVIDENCIA` AS `ARCHIVO_EVIDENCIA`,`reporte_prototipo`.`ID_LGAC` AS `ID_LGAC` from `reporte_prototipo` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `reporte_prototipo`
+--
+
+/*!50001 DROP VIEW IF EXISTS `reporte_prototipo`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`villa`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `reporte_prototipo` AS select `producto_academico_prototipo`.`ID_PRODUCTO` AS `ID_PRODUCTO`,`producto_academico_prototipo`.`TIPO` AS `TIPO`,concat_ws(' ',year(`producto_academico_prototipo`.`FECHA`),(select group_concat(`colaborador`.`NOMBRE` separator ', ') from `colaborador` where (`colaborador`.`ID_PRODUCTO` = `producto_academico_prototipo`.`ID_PRODUCTO`)),'.',`producto_academico_prototipo`.`TITULO`,`producto_academico_prototipo`.`DESCRIPCION`,concat_ws(',',`producto_academico_prototipo`.`CIUDAD`,`producto_academico_prototipo`.`PAIS`),'.') AS `PRODUCTO`,`producto_academico_prototipo`.`ARCHIVO_EVIDENCIA` AS `ARCHIVO_EVIDENCIA`,`producto_academico_prototipo`.`ID_LGAC` AS `ID_LGAC` from `producto_academico_prototipo` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `reporte_trabajo_recepcional`
+--
+
+/*!50001 DROP VIEW IF EXISTS `reporte_trabajo_recepcional`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`villa`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `reporte_trabajo_recepcional` AS select `producto_academico_trabajo_recepcional`.`ID_PRODUCTO` AS `ID_PRODUCTO`,`producto_academico_trabajo_recepcional`.`TIPO` AS `TIPO`,concat_ws(' ',year(`producto_academico_trabajo_recepcional`.`FECHA`),(select group_concat(`colaborador`.`NOMBRE` separator ', ') from `colaborador` where ((`colaborador`.`ID_PRODUCTO` = `producto_academico_trabajo_recepcional`.`ID_PRODUCTO`) and (`colaborador`.`ROL` = 'AUTOR'))),'. ',`producto_academico_trabajo_recepcional`.`TITULO`) AS `PRODUCTO`,`producto_academico_trabajo_recepcional`.`ARCHIVO_EVIDENCIA` AS `ARCHIVO_EVIDENCIA`,`producto_academico_trabajo_recepcional`.`ID_LGAC` AS `ID_LGAC` from `producto_academico_trabajo_recepcional` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `repositorio_institucional`
+--
+
+/*!50001 DROP VIEW IF EXISTS `repositorio_institucional`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`villa`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `repositorio_institucional` AS select `producto_academico_trabajo_recepcional`.`ID_PRODUCTO` AS `ID_PRODUCTO`,concat_ws(' ',year(`producto_academico_trabajo_recepcional`.`FECHA`),`producto_academico_trabajo_recepcional`.`TITULO`) AS `TITULO`,`producto_academico_trabajo_recepcional`.`DESCRIPCION` AS `DESCRIPCION`,`producto_academico_trabajo_recepcional`.`REPOSITORIO` AS `REPOSITORIO`,`producto_academico_trabajo_recepcional`.`ARCHIVO_EVIDENCIA` AS `ARCHIVO_EVIDENCIA` from `producto_academico_trabajo_recepcional` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2023-02-06 16:13:18
