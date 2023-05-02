@@ -67,6 +67,7 @@ routerSesiones.post("/login", async (request: Request, response: Response) => {
             result: true,
             message: "Credenciales correctas",
             token: await tokens.createToken(usuario),
+			usuario,
         });
     } catch (error: any) {
         handleError(error as Error, response);
